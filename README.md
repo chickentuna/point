@@ -14,7 +14,7 @@ npm install @studiomoniker/point --save
 
 ```javascript
 var Point = require('@studiomoniker/point');
-var vec = new Point(10, 20);
+var point = new Point(10, 20);
 ```
 
 ### ES6
@@ -25,7 +25,7 @@ npm install @studiomoniker/point --save
 
 ```javascript
 import Point from '@studiomoniker/point';
-let vec = new Point(10, 20);
+let point = new Point(10, 20);
 ```
 
 ### Global object
@@ -35,7 +35,7 @@ Include the pre-built script.
 ```html
 <script src="build/point.js"></script>
 <script>
-var vec = new Point(10, 20);
+var point = new Point(10, 20);
 </script>
 ```
 
