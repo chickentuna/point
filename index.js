@@ -698,6 +698,24 @@ Point.prototype = {
   },
 
   /**
+   * Returns the vector from this point to the supplied point
+   *
+   * ### Examples:
+   *     var point = new Point(10, 10);
+   *     var point1 = new Point(15, 15);
+   *     var vector = point.vector(point1);
+   *
+   *     vector.toString();
+   *     // => x:5, y:5
+   *
+   * @return {Point} The vector
+   * @api public
+   */
+  vector: function(point) {
+    return point.clone().subtract(this);
+  },
+
+  /**
    * Sets the point to zero (0,0)
    *
    * ### Examples:
