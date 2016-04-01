@@ -1097,7 +1097,7 @@ Point.prototype = {
    * @api public
    */
   toArray: function() {
-    return [ this.x, this.y ];
+    return [this.x, this.y];
   },
 
   /**
