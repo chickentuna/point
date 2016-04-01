@@ -725,7 +725,7 @@ Point.prototype = {
    *     // => 23000
    *
    * @param {Point} vector The second vector
-   * @return {Number} the dor product of the two points
+   * @return {Number} the dot product of the two points
    * @api public
    */
   dot: function(point) {
