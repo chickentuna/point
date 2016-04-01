@@ -176,7 +176,7 @@ Point.prototype = {
   },
 
   /**
-   * Adds the given number to both point components
+   * Adds the given number to both point coordinates
    *
    * ### Examples:
    *     var point = new Point(1, 2);
@@ -481,7 +481,7 @@ Point.prototype = {
 
   /**
    * Sets the integer remainders of dividing the point's
-   * components by the supplied number
+   * coordinates by the supplied number
    *
    * ### Examples:
      * var point = new Point(12, 6);
