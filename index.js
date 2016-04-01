@@ -683,9 +683,9 @@ Point.prototype = {
    * ### Examples:
    *     var point1 = new Point(10, 10);
    *     var point = new Point(20, 20);
-   *     var point = point1.copy(point1);
+   *     point1.copy(point);
    *
-   *     point.toString();
+   *     point1.toString();
    *     // => x:20, y:20
    *
    * @return {Point} `this` for chaining capabilities
