@@ -1,6 +1,8 @@
-# Point - JavaScript 2D point library with methods for common vector operations
+# Point
 
-Forked from (victor)[https://github.com/maxkueng/victor/], bringing in ideas and code from (paper.js)[https://github.com/paperjs/paper.js/blob/develop/src/basic/Point.js].
+JavaScript 2D point library with methods for common vector operations
+
+Forked from [Victor](https://github.com/maxkueng/victor/), bringing in ideas and code from [Paper.js](https://github.com/paperjs/paper.js/blob/develop/src/basic/Point.js).
 
 ## Installation
 
