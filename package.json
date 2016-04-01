@@ -1,5 +1,5 @@
 {
-  "name": "victor",
+  "name": "point",
   "version": "1.1.0",
   "description": "A JavaScript 2D vector class with methods for common vector operations",
   "keywords": [
@@ -9,23 +9,21 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/maxkueng/victor.git"
+    "url": "git://github.com/studiomoniker/point.git"
   },
   "scripts": {
-    "build": "(echo '/*!' ; cat ./LICENSE ; echo '*/' ; browserify index.js --standalone Victor) > build/victor.js && cat build/victor.js | uglifyjs -mc --comments '/^!/' > build/victor.min.js",
+    "build": "(echo '/*!' ; cat ./LICENSE ; echo '*/' ; browserify index.js --standalone Point) > build/point.js && cat build/point.js | uglifyjs -mc --comments '/^!/' > build/point.min.js",
     "doc": "markdox index.js -o documentation/api.md",
     "test": "mocha --ui bdd --reporter spec"
   },
-  "homepage": "http://victorjs.org/",
-  "author": "Max Kueng <me@maxkueng.com> (http://maxkueng.com/)",
+  "author": "Jonathan Puckey <jonathan@studiomoniker.com> (http://studiomoniker.com/)",
   "maintainers": [
-    "Max Kueng (http://maxkueng.com/)",
-    "George Crabtree (http://georgecrabtree.com/)"
+    "Jonathan Puckey (http://studiomoniker.com)"
   ],
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/maxkueng/victor/raw/master/LICENSE"
+      "url": "https://github.com/studiomoniker/point/raw/master/LICENSE"
     }
   ],
   "devDependencies": {

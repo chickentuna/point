@@ -899,7 +899,7 @@ Calculates the dot product of this vector and another
 
 * **Number** Dot product
 
-## projectOnto(vector)
+## project(vector)
 
 Projects a vector onto another vector, setting itself to the result.
 
@@ -907,7 +907,7 @@ Projects a vector onto another vector, setting itself to the result.
     var vec = new Victor(100, 0);
     var vec2 = new Victor(100, 100);
 
-    vec.projectOnto(vec2);
+    vec.project(vec2);
     vec.toString();
     // => x:50, y:50
 
@@ -1075,14 +1075,14 @@ Returns a true if vector is (0, 0)
 
 * **Boolean** 
 
-## isEqualTo()
+## equals()
 
 Returns a true if this vector is the same as another
 
 ### Examples:
     var vec1 = new Victor(100, 50);
     var vec2 = new Victor(100, 50);
-    vec1.isEqualTo(vec2);
+    vec1.equals(vec2);
 
     // => true
 
