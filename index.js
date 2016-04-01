@@ -10,14 +10,14 @@ exports = module.exports = Point;
  * ### Examples:
  *     var point1 = new Point(100, 50);
  *
- * @param {Number} x Value of the x axis
- * @param {Number} y Value of the y axis
+ * @param {Number} x Value of the x coordinate
+ * @param {Number} y Value of the y coordinate
  * @return {Point}
  * @api public
  */
 function Point (x, y) {
   /**
-   * The X axis
+   * The X coordinate
    *
    * ### Examples:
    *     var point = new Point(42, 21);
@@ -30,7 +30,7 @@ function Point (x, y) {
   this.x = x || 0;
 
   /**
-   * The Y axis
+   * The Y coordinate
    *
    * ### Examples:
    *     var point = new Point(42, 21);
@@ -313,7 +313,7 @@ Point.prototype = {
   },
 
   /**
-   * Divides both vector axis by a axis values of given vector
+   * Divides X and Y coordinates of the point by those of the given point
    *
    * ### Examples:
    *     var point = new Point(100, 50);
@@ -327,14 +327,14 @@ Point.prototype = {
    * @return {Point} `this` for chaining capabilities
    * @api public
    */
-  divide: function(vector) {
-    this.x /= vector.x;
-    this.y /= vector.y;
+  divide: function(point) {
+    this.x /= point.x;
+    this.y /= point.y;
     return this;
   },
 
   /**
-   * Divides both vector axis by the given number value
+   * Divides X and Y coordinates of the point by those of the given number
    *
    * ### Examples:
    *     var point = new Point(100, 50);
@@ -585,7 +585,7 @@ Point.prototype = {
    *     point.toString();
    *     // => x:200, y:50
    *
-   * @param {Number} The number to multiply the axis with
+   * @param {Number} The number to multiply the X coordinate with
    * @return {Victor} `this` for chaining capabilities
    * @api public
    */
@@ -604,7 +604,7 @@ Point.prototype = {
    *     point.toString();
    *     // => x:100, y:100
    *
-   * @param {Number} The number to multiply the axis with
+   * @param {Number} The number to multiply the Y coordinate with
    * @return {Victor} `this` for chaining capabilities
    * @api public
    */
