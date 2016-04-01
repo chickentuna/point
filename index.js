@@ -136,7 +136,7 @@ Point.min = function(point1, point2) {
  * @param {Point} point1
  * @param {Point} point2
   *
- * @name Point.min
+ * @name Point.max
  * @return {Point} The new instance
  * @api public
  */
@@ -201,7 +201,7 @@ Point.prototype = {
    * ### Examples:
    *     var point = new Point(1, 2);
    *
-   *     point.addNumX(2);
+   *     point.addX(2);
    *     point.toString();
    *     // => x: 3, y: 2
    *
@@ -220,7 +220,7 @@ Point.prototype = {
    * ### Examples:
    *     var point = new Point(1, 2);
    *
-   *     point.addNumY(2);
+   *     point.addY(2);
    *     point.toString();
    *     // => x: 1, y: 4
    *
@@ -299,7 +299,7 @@ Point.prototype = {
    * ### Examples:
    *     var point = new Point(100, 200);
    *
-   *     point.subtractNumY(20);
+   *     point.subtractY(20);
    *     point.toString();
    *     // => x: 100, y: 180
    *
@@ -343,7 +343,7 @@ Point.prototype = {
    *     point.toString();
    *     // => x:50, y:25
    *
-   * @param {Number} The number to divide by
+   * @param {Number} number The number to divide by
    * @return {Point} `this` for chaining capabilities
    * @api public
    */
@@ -565,7 +565,7 @@ Point.prototype = {
    *     point.toString();
    *     // => x:200, y:100
    *
-   * @param {Number} The number to multiply by
+   * @param {Number} number The number to multiply by
    * @return {Point} `this` for chaining capabilities
    * @api public
    */
@@ -604,7 +604,7 @@ Point.prototype = {
    *     point.toString();
    *     // => x:100, y:100
    *
-   * @param {Number} The number to multiply the Y coordinate with
+   * @param {Number} number The number to multiply the Y coordinate with
    * @return {Victor} `this` for chaining capabilities
    * @api public
    */
@@ -618,7 +618,7 @@ Point.prototype = {
    * changing its angle. The optional
    * length parameter defines the length to normalize to.
    *
-   * @param {Number} The length of the normalized vector
+   * @param {Number} length The length of the normalized vector
    * @return {Point} the normalized vector of the vector that is represented
    *                 by this point's X and Y coordinates
    *
@@ -936,7 +936,7 @@ Point.prototype = {
    *
    * @param {Number} angle the rotation angle in radian
    * @param {Point} center the optional center point of the rotation
-   * @returns {Point} the rotated point
+   * @return {Point} `this` for chaining capabilities
    */
   rotate: function(angle, center) {
     if (angle === 0)
@@ -988,7 +988,7 @@ Point.prototype = {
    *     point1.distance(point);
    *     // => 100.4987562112089
    *
-   * @param {Point} vector The second vector
+   * @param {Point} point The second point
    * @return {Number} Distance
    * @api public
    */
@@ -1048,6 +1048,12 @@ Point.prototype = {
     return this.x * this.x + this.y * this.y;
   },
 
+  /**
+   * Changes the location of the vector, but keeps it's angle.
+   *
+   * @param {Number} length
+   * @return {Point} `this` for chaining capabilities
+   */
   setLength: function(length) {
     if (this.isZero()) {
       var angle = this._angle || 0;
@@ -1061,6 +1067,12 @@ Point.prototype = {
     return this;
   },
 
+  /**
+   * Limits the length of the vector, but keeps it's angle.
+   *
+   * @param {Number} length
+   * @return {Point} `this` for chaining capabilities
+   */
   limitLength: function(length) {
     var thisLength = this.length();
     if (thisLength > length) {

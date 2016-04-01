@@ -106,7 +106,7 @@ supplied points.
 
 * **Point** The new instance
 
-## Point.min(point1, point2)
+## Point.max(point1, point2)
 
 Returns a new point object with the largest x and y of the
 supplied points.
@@ -148,7 +148,7 @@ Adds another vector to this one
 
 ## addNum(number)
 
-Adds the given number to both point components
+Adds the given number to both point coordinates
 
 ### Examples:
     var point = new Point(1, 2);
@@ -172,7 +172,7 @@ Adds the given number to the X coordinate
 ### Examples:
     var point = new Point(1, 2);
 
-    point.addNumX(2);
+    point.addX(2);
     point.toString();
     // => x: 3, y: 2
 
@@ -191,7 +191,7 @@ Adds the given number to the Y coordinate
 ### Examples:
     var point = new Point(1, 2);
 
-    point.addNumY(2);
+    point.addY(2);
     point.toString();
     // => x: 1, y: 4
 
@@ -268,7 +268,7 @@ Subtracts the given number from the Y coordinate
 ### Examples:
     var point = new Point(100, 200);
 
-    point.subtractNumY(20);
+    point.subtractY(20);
     point.toString();
     // => x: 100, y: 180
 
@@ -300,7 +300,7 @@ Divides X and Y coordinates of the point by those of the given point
 
 * **Point** `this` for chaining capabilities
 
-## divideNum(The)
+## divideNum(number)
 
 Divides X and Y coordinates of the point by those of the given number
 
@@ -313,7 +313,7 @@ Divides X and Y coordinates of the point by those of the given number
 
 ### Params:
 
-* **Number** *The* number to divide by
+* **Number** *number* The number to divide by
 
 ### Return:
 
@@ -423,7 +423,7 @@ console.log(point); // {x: 2, y: 0}
 ## moduloNum(vector)
 
 Sets the integer remainders of dividing the point's
-components by the supplied number
+coordinates by the supplied number
 
 ### Examples:
 var point = new Point(12, 6);
@@ -494,7 +494,7 @@ Multiplies the X and Y coordinates by coordinates from a given point
 
 * **Point** `this` for chaining capabilities
 
-## multiplyNum(The)
+## multiplyNum(number)
 
 Multiplies the X and Y coordinates by the given number
 
@@ -507,7 +507,7 @@ Multiplies the X and Y coordinates by the given number
 
 ### Params:
 
-* **Number** *The* number to multiply by
+* **Number** *number* The number to multiply by
 
 ### Return:
 
@@ -532,7 +532,7 @@ Multiplies the X coordinate by the given number
 
 * **Victor** `this` for chaining capabilities
 
-## multiplyY(The)
+## multiplyY(number)
 
 Multiplies the Y coordinate by the given number
 
@@ -545,13 +545,13 @@ Multiplies the Y coordinate by the given number
 
 ### Params:
 
-* **Number** *The* number to multiply the Y coordinate with
+* **Number** *number* The number to multiply the Y coordinate with
 
 ### Return:
 
 * **Victor** `this` for chaining capabilities
 
-## normalize(The)
+## normalize(length)
 
 Normalizes the length of the vector to 1 without
 changing its angle. The optional
@@ -559,7 +559,7 @@ length parameter defines the length to normalize to.
 
 ### Params:
 
-* **Number** *The* length of the normalized vector
+* **Number** *length* The length of the normalized vector
 
 ### Return:
 
@@ -791,9 +791,9 @@ Rotates the point by the given angle around an optional center point.
 
 ### Return:
 
-* **Point** the rotated point
+* **Point** `this` for chaining capabilities
 
-## distance(vector)
+## distance(point)
 
 Calculates the euclidean distance between this point and another
 
@@ -806,7 +806,7 @@ Calculates the euclidean distance between this point and another
 
 ### Params:
 
-* **Point** *vector* The second vector
+* **Point** *point* The second point
 
 ### Return:
 
@@ -858,6 +858,30 @@ Squared length / magnitude
 ### Return:
 
 * **Number** Length / Magnitude
+
+## setLength(length)
+
+Changes the location of the vector, but keeps it's angle.
+
+### Params:
+
+* **Number** *length* 
+
+### Return:
+
+* **Point** `this` for chaining capabilities
+
+## limitLength(length)
+
+Limits the length of the vector, but keeps it's angle.
+
+### Params:
+
+* **Number** *length* 
+
+### Return:
+
+* **Point** `this` for chaining capabilities
 
 ## isClose(point, tolerance)
 
