@@ -57,7 +57,7 @@ function Point (x, y) {
  *     // => x:42, y:21
  *
  * @name Point.fromArray
- * @param {Array} array Array with the x and y values at index 0 and 1 respectively
+ * @param {Array} array Array with the x and y coordinates at index 0 and 1 respectively
  * @return {Point} The new instance
  * @api public
  */
@@ -90,7 +90,7 @@ Point.fromObject = function(obj) {
 },
 
 /**
- * Creates a new instance with random x and y values between 0 and 1,
+ * Creates a new instance with random x and y coordinates between 0 and 1,
  *
  * ### Examples:
  *     var randomVector = Point.random();
