@@ -2,463 +2,356 @@
 
 <!-- Start index.js -->
 
-# Victor - A JavaScript 2D vector class with methods for common vector operations
+# Point - A JavaScript 2D point class with methods for common vector operations
 
-## Victor(x, y)
+## Point(x, y)
 
-Constructor. Will also work without the `new` keyword
+Constructor.
 
 ### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = Victor(42, 1337);
+    var point1 = new Point(100, 50);
 
-### Params: 
+### Params:
 
-* **Number** *x* Value of the x axis
-* **Number** *y* Value of the y axis
+* **Number** *x* Value of the x coordinate
+* **Number** *y* Value of the y coordinate
 
 ### Return:
 
-* **Victor** 
+* **Point** 
 
 ## x
 
-The X axis
+The X coordinate
 
 ### Examples:
-    var vec = new Victor.fromArray(42, 21);
+    var point = new Point(42, 21);
 
-    vec.x;
+    point.x;
     // => 42
 
 ## y
 
-The Y axis
+The Y coordinate
 
 ### Examples:
-    var vec = new Victor.fromArray(42, 21);
+    var point = new Point(42, 21);
 
-    vec.y;
+    point.y;
     // => 21
 
 # Static
 
-## Victor.fromArray(array)
+## Point.fromArray(array)
 
 Creates a new instance from an array
 
 ### Examples:
-    var vec = Victor.fromArray([42, 21]);
+    var point = Point.fromArray([42, 21]);
 
-    vec.toString();
+    point.toString();
     // => x:42, y:21
 
-### Params: 
+### Params:
 
-* **Array** *array* Array with the x and y values at index 0 and 1 respectively
+* **Array** *array* Array with the x and y coordinates at index 0 and 1 respectively
 
 ### Return:
 
-* **Victor** The new instance
+* **Point** The new instance
 
-## Victor.fromObject(obj)
+## Point.fromObject(obj)
 
 Creates a new instance from an object
 
 ### Examples:
-    var vec = Victor.fromObject({ x: 42, y: 21 });
+    var point = Point.fromObject({ x: 42, y: 21 });
 
-    vec.toString();
+    point.toString();
     // => x:42, y:21
 
-### Params: 
+### Params:
 
 * **Object** *obj* Object with the values for x and y
 
 ### Return:
 
-* **Victor** The new instance
+* **Point** The new instance
+
+## Point.random()
+
+Creates a new instance with random x and y coordinates between 0 and 1,
+
+### Examples:
+    var randomVector = Point.random();
+
+    point.toString();
+    // => x:0.0273982 y: 0.9784389
+
+### Return:
+
+* **Point** The new instance
+
+## Point.min(point1, point2)
+
+Returns a new point object with the smallest x and y of the
+supplied points.
+
+### Params:
+
+* **Point** *point1* 
+* **Point** *point2* 
+
+### Return:
+
+* **Point** The new instance
+
+## Point.min(point1, point2)
+
+Returns a new point object with the largest x and y of the
+supplied points.
+
+### Params:
+
+* **Point** *point1* 
+* **Point** *point2* 
+
+### Return:
+
+* **Point** The new instance
+
+## Point
 
 # Manipulation
 
 These functions are chainable.
-
-## addX(vector)
-
-Adds another vector's X axis to this one
-
-### Examples:
-    var vec1 = new Victor(10, 10);
-    var vec2 = new Victor(20, 30);
-
-    vec1.addX(vec2);
-    vec1.toString();
-    // => x:30, y:10
-
-### Params: 
-
-* **Victor** *vector* The other vector you want to add to this one
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## addY(vector)
-
-Adds another vector's Y axis to this one
-
-### Examples:
-    var vec1 = new Victor(10, 10);
-    var vec2 = new Victor(20, 30);
-
-    vec1.addY(vec2);
-    vec1.toString();
-    // => x:10, y:40
-
-### Params: 
-
-* **Victor** *vector* The other vector you want to add to this one
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
 
 ## add(vector)
 
 Adds another vector to this one
 
 ### Examples:
-    var vec1 = new Victor(10, 10);
-    var vec2 = new Victor(20, 30);
+    var point1 = new Point(10, 10);
+    var point = new Point(20, 30);
 
-    vec1.add(vec2);
-    vec1.toString();
+    point1.add(point);
+    point1.toString();
     // => x:30, y:40
 
-### Params: 
+### Params:
 
-* **Victor** *vector* The other vector you want to add to this one
+* **Point** *vector* The other vector you want to add to this one
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## addScalar(scalar)
+## addNum(number)
 
-Adds the given scalar to both vector axis
+Adds the given number to both point components
 
 ### Examples:
-    var vec = new Victor(1, 2);
+    var point = new Point(1, 2);
 
-    vec.addScalar(2);
-    vec.toString();
+    point.addNum(2);
+    point.toString();
     // => x: 3, y: 4
 
-### Params: 
+### Params:
 
-* **Number** *scalar* The scalar to add
+* **Number** *number* The number to add
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## addScalarX(scalar)
+## addX(number)
 
-Adds the given scalar to the X axis
+Adds the given number to the X coordinate
 
 ### Examples:
-    var vec = new Victor(1, 2);
+    var point = new Point(1, 2);
 
-    vec.addScalarX(2);
-    vec.toString();
+    point.addNumX(2);
+    point.toString();
     // => x: 3, y: 2
 
-### Params: 
+### Params:
 
-* **Number** *scalar* The scalar to add
+* **Number** *number* The number to add
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## addScalarY(scalar)
+## addY(number)
 
-Adds the given scalar to the Y axis
+Adds the given number to the Y coordinate
 
 ### Examples:
-    var vec = new Victor(1, 2);
+    var point = new Point(1, 2);
 
-    vec.addScalarY(2);
-    vec.toString();
+    point.addNumY(2);
+    point.toString();
     // => x: 1, y: 4
 
-### Params: 
+### Params:
 
-* **Number** *scalar* The scalar to add
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## subtractX(vector)
-
-Subtracts the X axis of another vector from this one
-
-### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(20, 30);
-
-    vec1.subtractX(vec2);
-    vec1.toString();
-    // => x:80, y:50
-
-### Params: 
-
-* **Victor** *vector* The other vector you want subtract from this one
+* **Number** *number* The number to add
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
-
-## subtractY(vector)
-
-Subtracts the Y axis of another vector from this one
-
-### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(20, 30);
-
-    vec1.subtractY(vec2);
-    vec1.toString();
-    // => x:100, y:20
-
-### Params: 
-
-* **Victor** *vector* The other vector you want subtract from this one
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
 ## subtract(vector)
 
 Subtracts another vector from this one
 
 ### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(20, 30);
+    var point1 = new Point(100, 50);
+    var point = new Point(20, 30);
 
-    vec1.subtract(vec2);
-    vec1.toString();
+    point1.subtract(point);
+    point1.toString();
     // => x:80, y:20
 
-### Params: 
+### Params:
 
-* **Victor** *vector* The other vector you want subtract from this one
+* **Point** *vector* The other vector you want subtract from this one
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## subtractScalar(scalar)
+## subtractNum(number)
 
-Subtracts the given scalar from both axis
+Subtracts the given number from the X and Y coordinates of the point
 
 ### Examples:
-    var vec = new Victor(100, 200);
+    var point = new Point(100, 200);
 
-    vec.subtractScalar(20);
-    vec.toString();
+    point.subtractNum(20);
+    point.toString();
     // => x: 80, y: 180
 
-### Params: 
+### Params:
 
-* **Number** *scalar* The scalar to subtract
+* **Number** *number* The number to subtract
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## subtractScalarX(scalar)
+## subtractX(number)
 
-Subtracts the given scalar from the X axis
+Subtracts the given number from the X coordinate
 
 ### Examples:
-    var vec = new Victor(100, 200);
+    var point = new Point(100, 200);
 
-    vec.subtractScalarX(20);
-    vec.toString();
+    point.subtractX(20);
+    point.toString();
     // => x: 80, y: 200
 
-### Params: 
+### Params:
 
-* **Number** *scalar* The scalar to subtract
+* **Number** *number* The number to subtract
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## subtractScalarY(scalar)
+## subtractY(number)
 
-Subtracts the given scalar from the Y axis
+Subtracts the given number from the Y coordinate
 
 ### Examples:
-    var vec = new Victor(100, 200);
+    var point = new Point(100, 200);
 
-    vec.subtractScalarY(20);
-    vec.toString();
+    point.subtractNumY(20);
+    point.toString();
     // => x: 100, y: 180
 
-### Params: 
+### Params:
 
-* **Number** *scalar* The scalar to subtract
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## divideX(vector)
-
-Divides the X axis by the x component of given vector
-
-### Examples:
-    var vec = new Victor(100, 50);
-    var vec2 = new Victor(2, 0);
-
-    vec.divideX(vec2);
-    vec.toString();
-    // => x:50, y:50
-
-### Params: 
-
-* **Victor** *vector* The other vector you want divide by
+* **Number** *number* The number to subtract
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
-
-## divideY(vector)
-
-Divides the Y axis by the y component of given vector
-
-### Examples:
-    var vec = new Victor(100, 50);
-    var vec2 = new Victor(0, 2);
-
-    vec.divideY(vec2);
-    vec.toString();
-    // => x:100, y:25
-
-### Params: 
-
-* **Victor** *vector* The other vector you want divide by
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
 ## divide(vector)
 
-Divides both vector axis by a axis values of given vector
+Divides X and Y coordinates of the point by those of the given point
 
 ### Examples:
-    var vec = new Victor(100, 50);
-    var vec2 = new Victor(2, 2);
+    var point = new Point(100, 50);
+    var point = new Point(2, 2);
 
-    vec.divide(vec2);
-    vec.toString();
+    point.divide(point);
+    point.toString();
     // => x:50, y:25
 
-### Params: 
+### Params:
 
-* **Victor** *vector* The vector to divide by
+* **Point** *vector* The vector to divide by
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## divideScalar(The)
+## divideNum(The)
 
-Divides both vector axis by the given scalar value
+Divides X and Y coordinates of the point by those of the given number
 
 ### Examples:
-    var vec = new Victor(100, 50);
+    var point = new Point(100, 50);
 
-    vec.divideScalar(2);
-    vec.toString();
+    point.divideNum(2);
+    point.toString();
     // => x:50, y:25
 
-### Params: 
+### Params:
 
-* **Number** *The* scalar to divide by
+* **Number** *The* number to divide by
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## divideScalarX(The)
+## divideX(The)
 
-Divides the X axis by the given scalar value
+Divides the X coordinate by the given number
 
 ### Examples:
-    var vec = new Victor(100, 50);
+    var point = new Victor(100, 50);
 
-    vec.divideScalarX(2);
-    vec.toString();
+    point.divideX(2);
+    point.toString();
     // => x:50, y:50
 
-### Params: 
+### Params:
 
-* **Number** *The* scalar to divide by
+* **Number** *The* number to divide by
 
 ### Return:
 
 * **Victor** `this` for chaining capabilities
 
-## divideScalarY(The)
+## divideY(The)
 
-Divides the Y axis by the given scalar value
+Divides the Y coordinate by the given number
 
 ### Examples:
-    var vec = new Victor(100, 50);
+    var point = new Victor(100, 50);
 
-    vec.divideScalarY(2);
-    vec.toString();
+    point.divideY(2);
+    point.toString();
     // => x:100, y:25
 
-### Params: 
+### Params:
 
-* **Number** *The* scalar to divide by
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## invertX()
-
-Inverts the X axis
-
-### Examples:
-    var vec = new Victor(100, 50);
-
-    vec.invertX();
-    vec.toString();
-    // => x:-100, y:50
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## invertY()
-
-Inverts the Y axis
-
-### Examples:
-    var vec = new Victor(100, 50);
-
-    vec.invertY();
-    vec.toString();
-    // => x:100, y:-50
+* **Number** *The* number to divide by
 
 ### Return:
 
@@ -466,568 +359,473 @@ Inverts the Y axis
 
 ## invert()
 
-Inverts both axis
+Inverts the X and Y coordinates of the point
 
 ### Examples:
-    var vec = new Victor(100, 50);
+    var point = new Point(100, 50);
 
-    vec.invert();
-    vec.toString();
+    point.invert();
+    point.toString();
     // => x:-100, y:-50
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## multiplyX(vector)
+## invertX()
 
-Multiplies the X axis by X component of given vector
+Inverts the X coordinate
 
 ### Examples:
-    var vec = new Victor(100, 50);
-    var vec2 = new Victor(2, 0);
+    var point = new Point(100, 50);
 
-    vec.multiplyX(vec2);
-    vec.toString();
-    // => x:200, y:50
-
-### Params: 
-
-* **Victor** *vector* The vector to multiply the axis with
+    point.invertX();
+    point.toString();
+    // => x:-100, y:50
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## multiplyY(vector)
+## invertY()
 
-Multiplies the Y axis by Y component of given vector
+Inverts the Y coordinate
 
 ### Examples:
-    var vec = new Victor(100, 50);
-    var vec2 = new Victor(0, 2);
+    var point = new Point(100, 50);
 
-    vec.multiplyX(vec2);
-    vec.toString();
-    // => x:100, y:100
-
-### Params: 
-
-* **Victor** *vector* The vector to multiply the axis with
+    point.invertY();
+    point.toString();
+    // => x:100, y:-50
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
+
+## modulo(point)
+
+Sets the integer remainders of dividing the point by
+the supplied point
+
+### Examples:
+var point = new Point(12, 6);
+point.modulo(new Point(5, 2))
+console.log(point); // {x: 2, y: 0}
+
+### Params:
+
+* **Point** *point* 
+
+### Return:
+
+* **Point** `this` for chaining capabilities
+
+## moduloNum(vector)
+
+Sets the integer remainders of dividing the point's
+components by the supplied number
+
+### Examples:
+var point = new Point(12, 6);
+point.modulo(new Point(5, 2))
+console.log(point); // {x: 2, y: 0}
+
+### Params:
+
+* **Point** *vector* 
+
+### Return:
+
+* **Point** `this` for chaining capabilities
+
+## moduloX(number)
+
+Sets the integer remainders of dividing the x coordinate by
+the supplied number
+
+### Examples:
+var point = new Point(12, 6);
+point.moduloX(5)
+console.log(point); // {x: 2, y: 6}
+
+### Params:
+
+* **Point** *number* 
+
+### Return:
+
+* **Point** `this` for chaining capabilities
+
+## moduloY(number)
+
+Sets the integer remainders of dividing the y coordinate by
+the supplied number
+
+### Examples:
+var point = new Point(12, 6);
+point.moduloY(5)
+console.log(point); // {x: 12, y: 1}
+
+### Params:
+
+* **Point** *number* 
+
+### Return:
+
+* **Point** `this` for chaining capabilities
 
 ## multiply(vector)
 
-Multiplies both vector axis by values from a given vector
+Multiplies the X and Y coordinates by coordinates from a given point
 
 ### Examples:
-    var vec = new Victor(100, 50);
-    var vec2 = new Victor(2, 2);
+    var point = new Point(100, 50);
+    var point = new Point(2, 2);
 
-    vec.multiply(vec2);
-    vec.toString();
+    point.multiply(point);
+    point.toString();
     // => x:200, y:100
 
-### Params: 
+### Params:
 
-* **Victor** *vector* The vector to multiply by
+* **Point** *vector* The vector to multiply by
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## multiplyScalar(The)
+## multiplyNum(The)
 
-Multiplies both vector axis by the given scalar value
+Multiplies the X and Y coordinates by the given number
 
 ### Examples:
-    var vec = new Victor(100, 50);
+    var point = new Point(100, 50);
 
-    vec.multiplyScalar(2);
-    vec.toString();
+    point.multiplyNum(2);
+    point.toString();
     // => x:200, y:100
 
-### Params: 
+### Params:
 
-* **Number** *The* scalar to multiply by
+* **Number** *The* number to multiply by
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## multiplyScalarX(The)
+## multiplyX(The)
 
-Multiplies the X axis by the given scalar
+Multiplies the X coordinate by the given number
 
 ### Examples:
-    var vec = new Victor(100, 50);
+    var point = new Victor(100, 50);
 
-    vec.multiplyScalarX(2);
-    vec.toString();
+    point.multiplyX(2);
+    point.toString();
     // => x:200, y:50
 
-### Params: 
+### Params:
 
-* **Number** *The* scalar to multiply the axis with
+* **Number** *The* number to multiply the X coordinate with
 
 ### Return:
 
 * **Victor** `this` for chaining capabilities
 
-## multiplyScalarY(The)
+## multiplyY(The)
 
-Multiplies the Y axis by the given scalar
+Multiplies the Y coordinate by the given number
 
 ### Examples:
-    var vec = new Victor(100, 50);
+    var point = new Victor(100, 50);
 
-    vec.multiplyScalarY(2);
-    vec.toString();
+    point.multiplyY(2);
+    point.toString();
     // => x:100, y:100
 
-### Params: 
+### Params:
 
-* **Number** *The* scalar to multiply the axis with
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## normalize()
-
-Normalize
+* **Number** *The* number to multiply the Y coordinate with
 
 ### Return:
 
 * **Victor** `this` for chaining capabilities
 
-## limit(max, factor)
+## normalize(The)
 
-If the absolute vector axis is greater than `max`, multiplies the axis by `factor`
+Normalizes the length of the vector to 1 without
+changing its angle. The optional
+length parameter defines the length to normalize to.
+
+### Params:
+
+* **Number** *The* length of the normalized vector
+
+### Return:
+
+* **Point** the normalized vector of the vector that is represented                 by this point's X and Y coordinates
+
+* **Point** `this` for chaining capabilities
+
+## round()
+
+Rounds the X and Y coordinates of the point to an integer value
 
 ### Examples:
-    var vec = new Victor(100, 50);
+    var point = new Point(100.2, 50.9);
 
-    vec.limit(80, 0.9);
-    vec.toString();
-    // => x:90, y:50
-
-### Params: 
-
-* **Number** *max* The maximum value for both x and y axis
-* **Number** *factor* Factor by which the axis are to be multiplied with
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## randomize(topLeft, bottomRight)
-
-Randomizes both vector axis with a value between 2 vectors
-
-### Examples:
-    var vec = new Victor(100, 50);
-
-    vec.randomize(new Victor(50, 60), new Victor(70, 80`));
-    vec.toString();
-    // => x:67, y:73
-
-### Params: 
-
-* **Victor** *topLeft* first vector
-* **Victor** *bottomRight* second vector
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## randomizeX(topLeft, bottomRight)
-
-Randomizes the y axis with a value between 2 vectors
-
-### Examples:
-    var vec = new Victor(100, 50);
-
-    vec.randomizeX(new Victor(50, 60), new Victor(70, 80`));
-    vec.toString();
-    // => x:55, y:50
-
-### Params: 
-
-* **Victor** *topLeft* first vector
-* **Victor** *bottomRight* second vector
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## randomizeY(topLeft, bottomRight)
-
-Randomizes the y axis with a value between 2 vectors
-
-### Examples:
-    var vec = new Victor(100, 50);
-
-    vec.randomizeY(new Victor(50, 60), new Victor(70, 80`));
-    vec.toString();
-    // => x:100, y:66
-
-### Params: 
-
-* **Victor** *topLeft* first vector
-* **Victor** *bottomRight* second vector
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## randomizeAny(topLeft, bottomRight)
-
-Randomly randomizes either axis between 2 vectors
-
-### Examples:
-    var vec = new Victor(100, 50);
-
-    vec.randomizeAny(new Victor(50, 60), new Victor(70, 80));
-    vec.toString();
-    // => x:100, y:77
-
-### Params: 
-
-* **Victor** *topLeft* first vector
-* **Victor** *bottomRight* second vector
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## unfloat()
-
-Rounds both axis to an integer value
-
-### Examples:
-    var vec = new Victor(100.2, 50.9);
-
-    vec.unfloat();
-    vec.toString();
+    point.round();
+    point.toString();
     // => x:100, y:51
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
+
+## abs()
+
+Sets the X and Y coordinates of the point to absolute values
+
+### Examples:
+    var point = new Point(-100, 100);
+
+    point.abs();
+    point.toString();
+    // => x:100, y:100
+
+### Return:
+
+* **Point** `this` for chaining capabilities
+
+## ceil()
+
+Sets the X and Y coordinates to the smallest integer greater
+than or equal to the given coordinates
+
+### Examples:
+    var point = new Point(10.3, 10.8);
+
+    point.ceil();
+    point.toString();
+    // => x:11, y:11
+
+### Return:
+
+* **Point** `this` for chaining capabilities
+
+## floor()
+
+Sets the X and Y coordinates to the largest integer less
+than or equal to the given coordinates
+
+### Examples:
+    var point = new Point(10.3, 10.8);
+
+    point.floor();
+    point.toString();
+    // => x:10, y:10
+
+### Return:
+
+* **Point** `this` for chaining capabilities
 
 ## toFixed(Precision)
 
-Rounds both axis to a certain precision
+Rounds the X and Y coordinates of the point to a certain precision
 
 ### Examples:
-    var vec = new Victor(100.2, 50.9);
+    var point = new Point(100.2, 50.9);
 
-    vec.unfloat();
-    vec.toString();
+    point.unfloat();
+    point.toString();
     // => x:100, y:51
 
-### Params: 
+### Params:
 
 * **Number** *Precision* (default: 8)
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
-## mixX(vector, amount)
+## mix(point, amount)
 
-Performs a linear blend / interpolation of the X axis towards another vector
-
-### Examples:
-    var vec1 = new Victor(100, 100);
-    var vec2 = new Victor(200, 200);
-
-    vec1.mixX(vec2, 0.5);
-    vec.toString();
-    // => x:150, y:100
-
-### Params: 
-
-* **Victor** *vector* The other vector
-* **Number** *amount* The blend amount (optional, default: 0.5)
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## mixY(vector, amount)
-
-Performs a linear blend / interpolation of the Y axis towards another vector
+Performs a linear blend / interpolation towards another point
 
 ### Examples:
-    var vec1 = new Victor(100, 100);
-    var vec2 = new Victor(200, 200);
+    var point1 = new Point(100, 100);
+    var point = new Point(200, 200);
 
-    vec1.mixY(vec2, 0.5);
-    vec.toString();
-    // => x:100, y:150
-
-### Params: 
-
-* **Victor** *vector* The other vector
-* **Number** *amount* The blend amount (optional, default: 0.5)
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## mix(vector, amount)
-
-Performs a linear blend / interpolation towards another vector
-
-### Examples:
-    var vec1 = new Victor(100, 100);
-    var vec2 = new Victor(200, 200);
-
-    vec1.mix(vec2, 0.5);
-    vec.toString();
+    point1.mix(point, 0.5);
+    point.toString();
     // => x:150, y:150
 
-### Params: 
+### Params:
 
-* **Victor** *vector* The other vector
+* **Point** *point* The other point
 * **Number** *amount* The blend amount (optional, default: 0.5)
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
 # Products
 
 ## clone()
 
-Creates a clone of this vector
+Creates a clone of this point
 
 ### Examples:
-    var vec1 = new Victor(10, 10);
-    var vec2 = vec1.clone();
+    var point1 = new Point(10, 10);
+    var point = point1.clone();
 
-    vec2.toString();
+    point.toString();
     // => x:10, y:10
 
 ### Return:
 
-* **Victor** A clone of the vector
-
-## copyX()
-
-Copies another vector's X component in to its own
-
-### Examples:
-    var vec1 = new Victor(10, 10);
-    var vec2 = new Victor(20, 20);
-    var vec2 = vec1.copyX(vec1);
-
-    vec2.toString();
-    // => x:20, y:10
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## copyY()
-
-Copies another vector's Y component in to its own
-
-### Examples:
-    var vec1 = new Victor(10, 10);
-    var vec2 = new Victor(20, 20);
-    var vec2 = vec1.copyY(vec1);
-
-    vec2.toString();
-    // => x:10, y:20
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
+* **Point** the cloned point
 
 ## copy()
 
-Copies another vector's X and Y components in to its own
+Copies another point's X and Y coordinates to its own
 
 ### Examples:
-    var vec1 = new Victor(10, 10);
-    var vec2 = new Victor(20, 20);
-    var vec2 = vec1.copy(vec1);
+    var point1 = new Point(10, 10);
+    var point = new Point(20, 20);
+    var point = point1.copy(point1);
 
-    vec2.toString();
+    point.toString();
     // => x:20, y:20
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
 ## zero()
 
-Sets the vector to zero (0,0)
+Sets the point to zero (0,0)
 
 ### Examples:
-    var vec1 = new Victor(10, 10);
-		 var1.zero();
-    vec1.toString();
+    var point1 = new Point(10, 10);
+    var1.zero();
+    point1.toString();
     // => x:0, y:0
 
 ### Return:
 
-* **Victor** `this` for chaining capabilities
+* **Point** `this` for chaining capabilities
 
 ## dot(vector)
 
 Calculates the dot product of this vector and another
 
 ### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(200, 60);
+    var point1 = new Point(100, 50);
+    var point = new Point(200, 60);
 
-    vec1.dot(vec2);
+    point1.dot(point);
     // => 23000
 
-### Params: 
+### Params:
 
-* **Victor** *vector* The second vector
+* **Point** *vector* The second vector
 
 ### Return:
 
-* **Number** Dot product
+* **Number** the dor product of the two points
+
+## cross(vector)
+
+Returns the cross product of this vector and another
+
+### Params:
+
+* **Point** *vector* The second vector
+
+### Return:
+
+* **Number** the cross product of the two points
 
 ## project(vector)
 
-Projects a vector onto another vector, setting itself to the result.
+Projects a vector onto this vector, setting itself to the result.
 
 ### Examples:
-    var vec = new Victor(100, 0);
-    var vec2 = new Victor(100, 100);
+    var point = new Point(100, 0);
+    var point = new Point(100, 100);
 
-    vec.project(vec2);
-    vec.toString();
+    point.project(point);
+    point.toString();
     // => x:50, y:50
 
-### Params: 
+### Params:
 
-* **Victor** *vector* The other vector you want to project this vector onto
-
-### Return:
-
-* **Victor** `this` for chaining capabilities
-
-## distanceX(vector)
-
-Calculates the distance of the X axis between this vector and another
-
-### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(200, 60);
-
-    vec1.distanceX(vec2);
-    // => -100
-
-### Params: 
-
-* **Victor** *vector* The second vector
+* **Point** *vector* The other vector you want to project this vector onto
 
 ### Return:
 
-* **Number** Distance
+* **Point** `this` for chaining capabilities
 
-## absDistanceX(vector)
+## angleTo(point)
 
-Same as `distanceX()` but always returns an absolute number
+Returns the smaller angle between two vectors in radians. The angle is
+unsigned, no information about rotational direction is given.
 
-### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(200, 60);
+### Params:
 
-    vec1.absDistanceX(vec2);
-    // => 100
-
-### Params: 
-
-* **Victor** *vector* The second vector
+* **Point** *point* 
 
 ### Return:
 
-* **Number** Absolute distance
+* **Number** the angle in radians
 
-## distanceY(vector)
+## rotate(angle, center)
 
-Calculates the distance of the Y axis between this vector and another
+Rotates the point by the given angle around an optional center point.
 
-### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(200, 60);
+### Params:
 
-    vec1.distanceY(vec2);
-    // => -10
-
-### Params: 
-
-* **Victor** *vector* The second vector
+* **Number** *angle* the rotation angle in radian
+* **Point** *center* the optional center point of the rotation
 
 ### Return:
 
-* **Number** Distance
-
-## absDistanceY(vector)
-
-Same as `distanceY()` but always returns an absolute number
-
-### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(200, 60);
-
-    vec1.distanceY(vec2);
-    // => 10
-
-### Params: 
-
-* **Victor** *vector* The second vector
-
-### Return:
-
-* **Number** Absolute distance
+* **Point** the rotated point
 
 ## distance(vector)
 
-Calculates the euclidean distance between this vector and another
+Calculates the euclidean distance between this point and another
 
 ### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(200, 60);
+    var point1 = new Point(100, 50);
+    var point = new Point(200, 60);
 
-    vec1.distance(vec2);
+    point1.distance(point);
     // => 100.4987562112089
 
-### Params: 
+### Params:
 
-* **Victor** *vector* The second vector
+* **Point** *vector* The second vector
 
 ### Return:
 
 * **Number** Distance
 
-## distanceSq(vector)
+## distanceSq(point)
 
-Calculates the squared euclidean distance between this vector and another
+Calculates the squared euclidean distance between this point and another
 
 ### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(200, 60);
+    var point1 = new Point(100, 50);
+    var point = new Point(200, 60);
 
-    vec1.distanceSq(vec2);
+    point1.distanceSq(point);
     // => 10100
 
-### Params: 
+### Params:
 
-* **Victor** *vector* The second vector
+* **Point** *point* The second point
 
 ### Return:
 
@@ -1035,12 +833,12 @@ Calculates the squared euclidean distance between this vector and another
 
 ## length()
 
-Calculates the length or magnitude of the vector
+Calculates the length or magnitude of the point
 
 ### Examples:
-    var vec = new Victor(100, 50);
+    var point = new Point(100, 50);
 
-    vec.length();
+    point.length();
     // => 111.80339887498948
 
 ### Return:
@@ -1052,23 +850,62 @@ Calculates the length or magnitude of the vector
 Squared length / magnitude
 
 ### Examples:
-    var vec = new Victor(100, 50);
+    var point = new Point(100, 50);
 
-    vec.lengthSq();
+    point.lengthSq();
     // => 12500
 
 ### Return:
 
 * **Number** Length / Magnitude
 
+## isClose(point, tolerance)
+
+Checks if the point is within a given distance of another point.
+
+### Params:
+
+* **Point** *point* the point to check against
+* **Number** *tolerance* the maximum distance allowed
+
+### Return:
+
+* **Boolean** true if it is within the given distance
+
+## isColinear(point)
+
+Checks if the vector represented by this point is colinear (parallel) to
+another vector.
+
+### Params:
+
+* **Point** *point* the vector to check against
+
+### Return:
+
+* **Boolean** true if it is colinear
+
+## isOrthogonal(point)
+
+Checks if the vector represented by this point is orthogonal
+(perpendicular) to another vector.
+
+### Params:
+
+* **Point** *point* the vector to check against
+
+### Return:
+
+* **Boolean** true if it is orthogonal
+
 ## isZero()
 
-Returns a true if vector is (0, 0)
+Checks whether the point's X and Y coordinates are both 0
 
 ### Examples:
-    var vec = new Victor(100, 50);
-    vec.zero();
+    var point = new Point(100, 50);
 
+    point.isZero();
     // => true
 
 ### Return:
@@ -1077,13 +914,13 @@ Returns a true if vector is (0, 0)
 
 ## equals()
 
-Returns a true if this vector is the same as another
+Returns a true if this point is the same as another
 
 ### Examples:
-    var vec1 = new Victor(100, 50);
-    var vec2 = new Victor(100, 50);
-    vec1.equals(vec2);
+    var point1 = new Point(100, 50);
+    var point = new Point(100, 50);
 
+    point1.equals(point);
     // => true
 
 ### Return:
@@ -1094,12 +931,12 @@ Returns a true if this vector is the same as another
 
 ## toString()
 
-Returns an string representation of the vector
+Returns an string representation of the point
 
 ### Examples:
-    var vec = new Victor(10, 20);
+    var point = new Point(10, 20);
 
-    vec.toString();
+    point.toString();
     // => x:10, y:20
 
 ### Return:
@@ -1108,12 +945,12 @@ Returns an string representation of the vector
 
 ## toArray()
 
-Returns an array representation of the vector
+Returns an array representation of the point
 
 ### Examples:
-    var vec = new Victor(10, 20);
+    var point = new Point(10, 20);
 
-    vec.toArray();
+    point.toArray();
     // => [10, 20]
 
 ### Return:
@@ -1122,12 +959,12 @@ Returns an array representation of the vector
 
 ## toObject()
 
-Returns an object representation of the vector
+Returns an object representation of the point
 
 ### Examples:
-    var vec = new Victor(10, 20);
+    var point = new Point(10, 20);
 
-    vec.toObject();
+    point.toObject();
     // => { x: 10, y: 20 }
 
 ### Return:
