@@ -1224,16 +1224,16 @@ Point.max = function(point1, point2) {
   );
 }
 
-var degrees = 180 / Math.PI;
+var DEGREES = 180 / Math.PI;
 
 function mix(value1, value2, ratio) {
   return value1 * (1 - ratio) + value2 * ratio;
 }
 
 function radianToDegrees (rad) {
-  return rad * degrees;
+  return rad * DEGREES;
 }
 
 function degreesToRadian (deg) {
-  return deg / degrees;
+  return deg / DEGREES;
 }
