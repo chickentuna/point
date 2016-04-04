@@ -1167,7 +1167,28 @@ Point.fromObject = function(obj) {
 }
 
 /**
- * Creates a new instance with random x and y coordinates between 0 and 1,
+ * Returns a vector represented by a Point instance with a random angle between
+ * 0 and 360 degrees with the given length, or a length of 1 if none was provided
+ * 
+ * ### Examples:
+ *     var randomVector = Point.randomVector(2);
+ *
+ * @name Point.randomVector
+ * @param scale Length of the resulting vector. If ommitted, a unit vector will be returned
+ * @return {Point} The new instance
+ * @api public
+ */
+Point.randomVector = function(length) {
+  length = length || 1.0;
+  var r = Math.random() * 2.0 * Math.PI;
+  return new Point(
+    Math.cos(r) * length,
+    Math.sin(r) * length
+  );
+};
+
+/**
+ * Returns a new Point instance with random X and Y coordinates between 0 and 1
  *
  * ### Examples:
  *     var randomVector = Point.random();
