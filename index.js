@@ -634,28 +634,6 @@ Point.prototype = {
   },
 
   /**
-   * Rounds the X and Y coordinates of the point to a certain precision
-   *
-   * ### Examples:
-   *     var point = new Point(100.2, 50.9);
-   *
-   *     point.unfloat();
-   *     point.toString();
-   *     // => x:100, y:51
-   *
-   * @param {Number} Precision (default: 8)
-   * @return {Point} `this` for chaining capabilities
-   * @api public
-   */
-  toFixed: function(precision) {
-    if (typeof precision === 'undefined')
-      precision = 8;
-    this.x = this.x.toFixed(precision);
-    this.y = this.y.toFixed(precision);
-    return this;
-  },
-
-  /**
    * Performs a linear blend / interpolation towards another point
    *
    * ### Examples:
