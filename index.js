@@ -72,6 +72,27 @@ Point.prototype = {
   },
 
   /**
+   * Sets the x and y coordinates of the point
+   *
+   * ### Examples:
+   *     var point = new Point();
+   *     point.set(10, 10);
+   *
+   *     point1.toString();
+   *     // => x:10, y:10
+   *
+   * @param {Number} x
+   * @param {Number} y
+   * @return {Point} `this` for chaining capabilities
+   * @api public
+   */
+  set: function(x, y) {
+    this.x = x;
+    this.y = y;
+    return this;
+  },
+
+  /**
    * Adds the given number to both point coordinates
    *
    * ### Examples:
