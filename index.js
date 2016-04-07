@@ -1,4 +1,4 @@
-exports = module.exports = Point;
+module.exports = Point;
 
 /**
  * # Point - A JavaScript 2D point class with methods for common vector operations
@@ -987,9 +987,9 @@ Point.prototype = {
    * @return {Point} `this` for chaining capabilities
    */
   limitLength: function(length) {
-    var thisLength = this.length();
-    if (thisLength > length) {
-      var scale = length / thisLength;
+    var len = this.length();
+    if (len > length) {
+      var scale = length / len;
       this.x = this.x * scale;
       this.y = this.y * scale;
     }
