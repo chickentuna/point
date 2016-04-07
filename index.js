@@ -537,7 +537,7 @@ Point.prototype = {
    *
    * @param {Number} length The length of the normalized vector
    * @return {Point} the normalized vector of the vector that is represented
-   *                 by the point's X and Y coordinates
+   *                 by this point's X and Y coordinates
    *
    * @return {Point} `this` for chaining capabilities
    * @api public
@@ -660,7 +660,7 @@ Point.prototype = {
    */
 
   /**
-   * Creates a clone of the point
+   * Creates a clone of this point
    *
    * ### Examples:
    *     var point1 = new Point(10, 10);
@@ -697,7 +697,7 @@ Point.prototype = {
   },
 
   /**
-   * Returns the vector from the point to the supplied point
+   * Returns the vector from this point to the supplied point
    *
    * ### Examples:
    *     var point = new Point(10, 10);
@@ -892,7 +892,7 @@ Point.prototype = {
   },
 
   /**
-   * Calculates the euclidean distance between the point and another
+   * Calculates the euclidean distance between this point and another
    *
    * ### Examples:
    *     var point1 = new Point(100, 50);
@@ -910,7 +910,7 @@ Point.prototype = {
   },
 
   /**
-   * Calculates the squared euclidean distance between the point and another
+   * Calculates the squared euclidean distance between this point and another
    *
    * ### Examples:
    *     var point1 = new Point(100, 50);
@@ -1001,7 +1001,7 @@ Point.prototype = {
    *
    * @param {Point} point the point to check against
    * @param {Number} tolerance the maximum distance allowed
-   * @returns {Boolean} true if it is within the given distance
+   * @returns {Boolean} true if it is within the given distance, false otherwise
    * @api public
    */
   isClose: function(point, tolerance) {
@@ -1009,7 +1009,7 @@ Point.prototype = {
   },
 
   /**
-   * Checks if the vector represented by the point is colinear (parallel) to
+   * Checks if the vector represented by this point is collinear (parallel) to
    * another vector.
    *
    * @param {Point} point the vector to check against
@@ -1020,11 +1020,11 @@ Point.prototype = {
   },
 
   /**
-   * Checks if the vector represented by the point is orthogonal
+   * Checks if the vector represented by this point is orthogonal
    * (perpendicular) to another vector.
    *
    * @param {Point} point the vector to check against
-   * @returns {Boolean} true if it is orthogonal
+   * @returns {Boolean} true if it is orthogonal, false otherwise
    */
   isOrthogonal: function(point) {
     return Math.abs(this.dot(point)) < 0;
@@ -1047,7 +1047,8 @@ Point.prototype = {
   },
 
   /**
-   * Checks whether the point has the same coordinates as the supplied point
+   * Checks whether the coordinates of the point are equal to that of the
+   * supplied point.
    *
    * ### Examples:
    *     var point1 = new Point(100, 50);
@@ -1056,7 +1057,7 @@ Point.prototype = {
    *     point1.equals(point);
    *     // => true
    *
-   * @return {Boolean}
+   * @return {Boolean} true if the coordinates are equal, false otherwise
    * @api public
    */
   equals: function(point) {
@@ -1068,7 +1069,7 @@ Point.prototype = {
    */
 
   /**
-   * Returns a string representation of the point
+   * Returns an string representation of the point
    *
    * ### Examples:
    *     var point = new Point(10, 20);
@@ -1080,7 +1081,7 @@ Point.prototype = {
    * @api public
    */
   toString: function() {
-    return 'x:' + this.x + ', y:' + this.y;
+    return '{ x: ' + fNumber(this.x) + ', y: ' + fNumber(this.y) + ' }';
   },
 
   /**
@@ -1124,7 +1125,7 @@ Point.prototype.horizontalAngleDeg = Point.prototype.angleDeg;
  */
 
 /**
- * Creates a new Point instance from an array
+ * Creates a new instance from an array
  *
  * ### Examples:
  *     var point = Point.fromArray([42, 21]);
@@ -1145,7 +1146,7 @@ Point.fromArray = function(arr) {
 };
 
 /**
- * Creates a new Point instance from an object
+ * Creates a new instance from an object
  *
  * ### Examples:
  *     var point = Point.fromObject({ x: 42, y: 21 });
@@ -1166,11 +1167,14 @@ Point.fromObject = function(obj) {
 };
 
 /**
- * Returns a vector represented by a Point instance with a random angle between
- * 0 and 360 degrees with the given length, or a length of 1 if none was provided
+ * Generates a random vector between 0 and 360 degrees with the given length,
+ * or a length of 1 if none was provided
  * 
  * ### Examples:
- *     var randomVector = Point.randomVector(2);
+ *     var randomVector = Point.random();
+ *
+ *     point.toString();
+ *     // => x:0.0273982 y: 0.9784389
  *
  * @name Point.randomVector
  * @param scale Length of the resulting vector. If ommitted, a unit vector will be returned
@@ -1187,7 +1191,7 @@ Point.randomVector = function(length) {
 };
 
 /**
- * Returns a new Point instance with random X and Y coordinates between 0 and 1
+ * Generates a random point with X and Y coordinates between 0 and 1
  *
  * ### Examples:
  *     var randomVector = Point.random();
@@ -1207,7 +1211,7 @@ Point.random = function() {
 };
 
 /**
- * Returns a new Point instance with the smallest x and y of the
+ * Returns a new point object with the smallest x and y of the
  * supplied points.
  *
  * @static
@@ -1226,7 +1230,7 @@ Point.min = function(point1, point2) {
 };
 
 /**
- * Returns a new Point instance with the largest x and y of the
+ * Returns a new point object with the largest x and y of the
  * supplied points.
  *
  * @static
