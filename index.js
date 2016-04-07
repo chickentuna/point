@@ -1015,8 +1015,8 @@ Point.prototype = {
    * @param {Point} point the vector to check against
    * @returns {Boolean} true if it is colinear
    */
-  isColinear: function(point) {
-    return Math.abs(this.cross(point)) < 0;
+  isCollinear: function(point) {
+    return Math.abs(this.cross(point)) < EPSILON;
   },
 
   /**
@@ -1027,7 +1027,7 @@ Point.prototype = {
    * @returns {Boolean} true if it is orthogonal, false otherwise
    */
   isOrthogonal: function(point) {
-    return Math.abs(this.dot(point)) < 0;
+    return Math.abs(this.dot(point)) < EPSILON;
   },
 
   /**
@@ -1248,6 +1248,17 @@ Point.max = function(point1, point2) {
   );
 };
 
+// Precision when comparing against 0
+// References:
+//  http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html
+//  http://www.cs.berkeley.edu/~wkahan/Math128/Cubic.pdf
+/**
+ * A very small absolute value used to check if a value is very close to
+ * zero. The value should be large enough to offset any floating point
+ * noise, but small enough to be meaningful in computation in a nominal
+ * range (see MACHINE_EPSILON).
+ */
+var EPSILON = 1e-12;
 var DEGREES = 180 / Math.PI;
 
 function mix(value1, value2, ratio) {
