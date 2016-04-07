@@ -24,7 +24,7 @@ describe('static methods', function () {
 		});
 	});
 
-	describe('#fromArray()', function () {
+	describe('Point.fromArray()', function () {
 		var arr, vec;
 
 		before(function () {
@@ -42,7 +42,7 @@ describe('static methods', function () {
 		});
 	});
 
-	describe('#fromObject()', function () {
+	describe('Point.fromObject()', function () {
 		var obj, vec;
 
 		before(function () {
@@ -60,9 +60,107 @@ describe('static methods', function () {
 		});
 	});
 
+	describe('Point.random()', function () {
+		var vec;
+
+		before(function () {
+			vec = Point.random();
+		});
+
+		it('should return an instance of Point', function () {
+			expect(vec).to.be.an.instanceof(Point);
+		});
+
+		it('should have coordinates from object', function () {
+			expect(vec).to.have.property('x');
+			expect(vec).to.have.property('y');
+		});
+	});
+
+	describe('Point.randomVector()', function () {
+		var vec;
+
+		before(function () {
+			vec = Point.randomVector();
+		});
+
+		it('should return an instance of Point', function () {
+			expect(vec).to.be.an.instanceof(Point);
+		});
+
+		it('should have coordinates from object', function () {
+			expect(vec).to.have.property('x');
+			expect(vec).to.have.property('y');
+		});
+	});
+
+	describe('Point.min(point1, point2)', function () {
+		var vec, vec1, ret;
+
+		before(function () {
+			vec = new Point(5, 10);
+			vec1 = new Point(10, 5);
+			ret = Point.min(vec, vec1);
+		});
+
+		it('should return an instance of Point', function () {
+			expect(ret).to.be.an.instanceof(Point);
+		});
+
+		it('should return an instance of Point', function () {
+			expect(ret).to.be.an.instanceof(Point);
+		});
+
+		it('should have returned a point with the smallest x and y coordinates from both points', function () {
+			expect(ret).to.have.property('x', vec.x);
+			expect(ret).to.have.property('y', vec1.y);
+		});
+	});
+
+	describe('Point.max(point1, point2)', function () {
+		var vec, vec1, ret;
+
+		before(function () {
+			vec = new Point(5, 10);
+			vec1 = new Point(10, 5);
+			ret = Point.max(vec, vec1);
+		});
+
+		it('should return an instance of Point', function () {
+			expect(ret).to.be.an.instanceof(Point);
+		});
+
+		it('should return an instance of Point', function () {
+			expect(ret).to.be.an.instanceof(Point);
+		});
+
+		it('should have returned a point with the largest x and y coordinates from both points', function () {
+			expect(ret).to.have.property('x', vec1.x);
+			expect(ret).to.have.property('y', vec.y);
+		});
+	});
+
 });
 
 describe('chainable instance methods', function () {
+
+	describe('#set()', function () {
+		var vec1;
+		var ret;
+		before(function () {
+			vec1 = new Point(20, 40);
+			ret = vec1.set(10, 10);
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec1);
+		});
+
+		it('should set the x and y properties', function () {
+			expect(vec1).to.have.property('x', 10);
+			expect(vec1).to.have.property('y', 10);
+		});
+	});
 
 	describe('#add()', function () {
 		var vec1, vec2, ret;
@@ -397,7 +495,7 @@ describe('chainable instance methods', function () {
 		var vec, ret;
 
 		before(function () {
-			vec = new Point(13.37, 42.42);
+			vec = new Point(10, 0);
 			ret = vec.normalize();
 		});
 
@@ -405,9 +503,153 @@ describe('chainable instance methods', function () {
 			expect(ret).to.equal(vec);
 		});
 
-		it.skip('should?', function () {
-			expect(vec).to.have.property('x');
-			expect(vec).to.have.property('y');
+		it('should have the correct properties', function () {
+			expect(vec).to.have.property('x', 1);
+			expect(vec).to.have.property('y', 0);
+		});
+	});
+
+	describe('#normalize(length)', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(0, 10);
+			ret = vec.normalize(20);
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should have the correct properties', function () {
+			expect(vec).to.have.property('x', 0);
+			expect(vec).to.have.property('y', 20);
+		});
+	});
+
+	describe('#invert()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(-10, 10);
+			ret = vec.invert();
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should have inverted the coordinates', function () {
+			expect(vec).to.have.property('x', 10);
+			expect(vec).to.have.property('y', -10);
+		});
+	});
+
+	describe('#invertX()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(-10, 10);
+			ret = vec.invertX();
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should have inverted the x coordinate', function () {
+			expect(vec).to.have.property('x', 10);
+			expect(vec).to.have.property('y', 10);
+		});
+	});
+
+	describe('#invertY()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(-10, 10);
+			ret = vec.invertY();
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should have inverted the y coordinate', function () {
+			expect(vec).to.have.property('x', -10);
+			expect(vec).to.have.property('y', -10);
+		});
+	});
+
+	describe('#modulo()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(5, 7);
+			ret = vec.modulo(new Point(5, 5));
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should have set the integer remainders of dividing the point by the supplied point', function () {
+			expect(vec).to.have.property('x', 0);
+			expect(vec).to.have.property('y', 2);
+		});
+	});
+
+	describe('#moduloNum()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(5, 7);
+			ret = vec.moduloNum(5);
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should have set the integer remainders of dividing the x and y coordinates of the point by the supplied number', function () {
+			expect(vec).to.have.property('x', 0);
+			expect(vec).to.have.property('y', 2);
+		});
+	});
+
+	describe('#moduloX()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(5, 7);
+			ret = vec.moduloX(5);
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should have set the integer remainders of dividing the x coordinate of the point by the supplied number', function () {
+			expect(vec).to.have.property('x', 0);
+			expect(vec).to.have.property('y', 7);
+		});
+	});
+
+	describe('#moduloY()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(5, 7);
+			ret = vec.moduloY(5);
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should have set the integer remainders of dividing the y coordinate of the point by the supplied number', function () {
+			expect(vec).to.have.property('x', 5);
+			expect(vec).to.have.property('y', 2);
 		});
 	});
 
@@ -426,6 +668,60 @@ describe('chainable instance methods', function () {
 		it('should round both vector axis to integers', function () {
 			expect(vec).to.have.property('x', 30);
 			expect(vec).to.have.property('y', 21);
+		});
+	});
+
+	describe('#abs()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(-10.1, 10.1);
+			ret = vec.abs();
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should Math.abs both vector axis to positive values', function () {
+			expect(vec).to.have.property('x', 10.1);
+			expect(vec).to.have.property('y', 10.1);
+		});
+	});
+
+	describe('#ceil()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(-10.1, 10.1);
+			ret = vec.ceil();
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should round up the x and y coordinates of the point', function () {
+			expect(vec).to.have.property('x', -10);
+			expect(vec).to.have.property('y', 11);
+		});
+	});
+
+	describe('#floor()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(-10.1, 10.1);
+			ret = vec.floor();
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should round down the x and y coordinates of the point', function () {
+			expect(vec).to.have.property('x', -11);
+			expect(vec).to.have.property('y', 10);
 		});
 	});
 
@@ -448,6 +744,45 @@ describe('chainable instance methods', function () {
 		});
 	});
 
+	describe('#copy()', function () {
+		var vec1, vec2, ret;
+
+		before(function () {
+			vec1 = new Point(100, 100);
+			vec2 = new Point(200, 200);
+			ret = vec1.copy(vec2);
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec1);
+		});
+
+		it('should copy the X and Y coordinates of the supplied point', function () {
+			expect(vec1).to.have.property('x', 200);
+			expect(vec1).to.have.property('y', 200);
+		});
+	});
+
+	describe('#vector()', function () {
+		var vec1, vec2, ret;
+
+		before(function () {
+			vec1 = new Point(100, 100);
+			vec2 = new Point(250, 250);
+			ret = vec1.vector(vec2);
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.not.equal(vec1);
+			expect(ret).to.not.equal(vec2);
+		});
+
+		it('should return the vector from the point to the supplied point as a new point', function () {
+			expect(ret).to.have.property('x', 150);
+			expect(ret).to.have.property('y', 150);
+		});
+	});
+
 	describe('#zero()', function () {
 		var vec, ret;
 
@@ -460,7 +795,7 @@ describe('chainable instance methods', function () {
 			expect(ret).to.equal(vec);
 		});
 
-		it('should interpolate half way', function () {
+		it('should set the X and Y coordinates to zero', function () {
 			expect(vec).to.have.property('x', 0);
 			expect(vec).to.have.property('y', 0);
 		});
@@ -690,7 +1025,7 @@ describe('regular instance methods', function () {
 		});
 	});
 
-	describe.skip('#distance()', function () {
+	describe('#distance()', function () {
 		var vec1, vec2, ret;
 
 		before(function () {
@@ -700,7 +1035,7 @@ describe('regular instance methods', function () {
 		});
 
 		it('should return the euclidean distance between 2 vectors', function () {
-			expect(ret).to.equal(-21);
+			expect(ret).to.equal(100);
 		});
 	});
 
@@ -717,6 +1052,48 @@ describe('regular instance methods', function () {
 		});
 	});
 
+	describe('#setLength()', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(10, 0);
+			ret = vec.setLength(30);
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should set the length of the vector', function () {
+			expect(vec.x).to.equal(30);
+			expect(vec.y).to.equal(0);
+		});
+	});
+
+	describe('#limitLength()', function () {
+		var vec, vec2, ret;
+
+		before(function () {
+			vec = new Point(10, 0);
+			vec2 = new Point(10, 0);
+			ret = vec.limitLength(5);
+			vec2.limitLength(20);
+		});
+
+		it('should be chainable', function () {
+			expect(ret).to.equal(vec);
+		});
+
+		it('should limit the length of the vector', function () {
+			expect(vec.x).to.equal(5);
+			expect(vec.y).to.equal(0);
+			expect(vec2.x).to.equal(10);
+			expect(vec2.y).to.equal(0);
+		});
+	});
+
+	describe.skip('#inverse()', function () {});
+
 	describe('#isZero()', function () {
 		var vec;
 
@@ -727,6 +1104,32 @@ describe('regular instance methods', function () {
 
 		it('should return true if the vector is zero', function () {
 			expect(vec.isZero()).to.equal(true);
+		});
+	});
+
+	describe('#isClose()', function () {
+		var point, point2;
+
+		before(function () {
+			point = new Point(100, 100);
+			point2 = new Point(50, 50);
+		});
+
+		it('should return false if the distance is smaller than the provided one', function () {
+			expect(point.isClose(point2, 10)).to.equal(false);
+		});
+
+		it('should return false if the distance is within than the provided one', function () {
+			expect(point.isClose(point2, 1000)).to.equal(true);
+		});
+	});
+
+	describe('#isCollinear()', function () {
+		it('should return true if the points are collinear, false otherwise', function () {
+	    expect(new Point(10, 5).isCollinear(new Point(20, 10))).to.equal(true);
+	    expect(new Point(5, 10).isCollinear(new Point(-5, -10))).to.equal(true);
+	    expect(new Point(10, 10).isCollinear(new Point(20, 10))).to.equal(false);
+	    expect(new Point(10, 10).isCollinear(new Point(10, -10))).to.equal(false);
 		});
 	});
 
@@ -755,13 +1158,13 @@ describe('utility methods', function () {
 		var vec, ret;
 
 		before(function () {
-			vec = new Point(100, 200);
+			vec = new Point(100.187181978, 200.181717189);
 			ret = vec.toString();
 		});
 
-		it('should return a string representation of the vector', function () {
+		it('should return a string representation of the vector with 5 fractional digits', function () {
 			expect(ret).to.be.a('string');
-			expect(ret).to.have.string('x:100, y:200');
+			expect(ret).to.have.string('{ x: 100.18718, y: 200.18172 }');
 		});
 	});
 
