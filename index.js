@@ -447,7 +447,7 @@ Point.prototype = {
    * @api public
    */
   moduloY: function(number) {
-    this.x = this.x % number;
+    this.y = this.y % number;
     return this;
   },
 
