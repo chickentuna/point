@@ -1272,3 +1272,10 @@ function radianToDegrees (rad) {
 function degreesToRadian (deg) {
   return deg / DEGREES;
 }
+
+function fNumber(number) {
+  // It would be nice to use Number#toFixed() instead, but it pads with 0,
+  // unecessarily consuming space.
+  var multiplier = 100000; // Math.pow(10, 5), where 5 is the amount of fractional digits
+  return Math.round(number * multiplier) / multiplier;
+}
