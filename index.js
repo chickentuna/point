@@ -1,5 +1,7 @@
 module.exports = Point;
 
+var numerical = require('./lib/numerical');
+
 /**
  * # Point - A JavaScript 2D point class with methods for common vector operations
  */
@@ -41,7 +43,7 @@ function Point (x, y) {
    * @api public
    */
   this.y = y || 0;
-};
+}
 
 /**
  * # Manipulation
@@ -545,7 +547,7 @@ Point.prototype = {
   normalize: function(length) {
     if (length === undefined)
       length = 1;
-    var current = this.length();
+    var current = this.getLength();
 
     var scale = current !== 0
       ? length / current
@@ -650,8 +652,8 @@ Point.prototype = {
    * @api public
    */
   mix: function(point, amount) {
-    this.x = mix(this.x, point.x, amount);
-    this.y = mix(this.y, point.y, amount);
+    this.x = numerical.mix(this.x, point.x, amount);
+    this.y = numerical.mix(this.y, point.y, amount);
     return this;
   },
 
@@ -702,7 +704,7 @@ Point.prototype = {
    * ### Examples:
    *     var point = new Point(10, 10);
    *     var point1 = new Point(15, 15);
-   *     var vector = point.vector(point1);
+   *     var vector = point.getVector(point1);
    *
    *     vector.toString();
    *     // => x:5, y:5
@@ -710,7 +712,7 @@ Point.prototype = {
    * @return {Point} The vector
    * @api public
    */
-  vector: function(point) {
+  getVector: function(point) {
     return point.clone().subtract(this);
   },
 
@@ -777,71 +779,83 @@ Point.prototype = {
   project: function(vector) {
     var coeff = vector.isZero()
       ? 0
-      : this.dot(vector) / vector.lengthSq();
+      : this.dot(vector) / vector.getLengthSquared();
     this.x = coeff * vector.x;
     this.y = coeff * vector.y;
     return this;
   },
 
-  angle: function() {
-    return this.isZero()
-      // Return the preserved angle in case the vector has no
-      // length, and update the internal _angle in case the
-      // vector has a length. See #setAngle() for more
-      // explanations.
-      ? this._angle || 0
-      : this._angle = Math.atan2(this.y, this.x);
-  },
-
   /**
-   * Returns the smaller angle between two vectors in radians. The angle is
-   * unsigned, no information about rotational direction is given.
+   * The angle
    *
-   * @param {Point} point
-   * @return {Number} the angle in radians
+   * ### Examples:
+   *     var point = new Point(10, 0);
+   *
+   *     point.angle;
+   *     // => 90
+   *
    * @api public
    */
-  angleTo: function(point) {
-    var div = this.length() * point.length();
-    if (div === 0) {
-      return NaN;
+  get angle() {
+    return this.getAngle();
+  },
+
+  getAngle: function(point) {
+    return numerical.radiansToDegrees(this.getAngleInRadians(point))
+  },
+
+  getAngleInRadians: function(point) {
+    if (!point) {
+      return this.isZero()
+        // Return the preserved angle in case the vector has no
+        // length, and update the internal _angle in case the
+        // vector has a length. See #setAngle() for more
+        // explanations.
+        ? this._angle || 0
+        : this._angle = Math.atan2(this.y, this.x);
     } else {
-      var a = this.dot(point) / div;
-      return Math.acos(
-        a < -1
-          ? -1
-          : a > 1
-            ? 1
-            : a
-      );
+      var div = this.getLength() * point.getLength();
+      if (numerical.isZero(div)) {
+        return NaN;
+      } else {
+        var a = this.dot(point) / div;
+        return Math.acos(
+          a < -1
+            ? -1
+            : a > 1
+              ? 1
+              : a
+        );
+      }
     }
   },
 
+  getDirectedAngle: function(point) {
+    return Math.atan2(this.cross(point), this.dot(point)) * 180 / Math.PI;
+  },
+
+  set angle(angle) {
+    this.setAngle(angle);
+  },
+
   setAngle: function(angle) {
+    this.setAngleInRadians(numerical.degreesToRadians(angle));
+    return this;
+  },
+
+  setAngleInRadians: function(angle) {
+    // We store a reference to _angle internally so we still preserve it
+    // when the vector's length is set to zero, and then anything else.
+    // Note that we cannot rely on it if x and y are something else than 0,
+    // since updating x / y does not automatically change _angle!
     this._angle = angle;
+    console.log(this.isZero())
     if (!this.isZero()) {
-      var length = this.length();
+      var length = this.getLength();
       this.x = Math.cos(angle) * length;
       this.y = Math.sin(angle) * length;
     }
     return this;
-  },
-
-  setAngleDeg: function(angle) {
-    this.setAngle(radianToDegrees(angle));
-    return this;
-  },
-
-  angleDeg: function() {
-    return radianToDegrees(this.horizontalAngle());
-  },
-
-  verticalAngle: function() {
-    return Math.atan2(this.x, this.y);
-  },
-
-  verticalAngleDeg: function() {
-    return radianToDegrees(this.verticalAngle());
   },
 
   /**
@@ -853,42 +867,29 @@ Point.prototype = {
    */
   rotate: function(angle, center) {
     if (angle === 0)
-      return this;
+        return this;
+    var radians = numerical.degreesToRadians(angle);
+    var s = Math.sin(radians);
+    var c = Math.cos(radians);
     var x = this.x;
     var y = this.y;
     if (center) {
-      x -= center.x;
-      y -= center.y;
+       x -= center.x;
+       y -= center.y;
     }
-    var s = Math.sin(angle);
-    var c = Math.cos(angle);
-    this.x = x * c - y * s;
-    this.y = x * s + y * c;
+    var x1 = x * c - y * s;
+    var y1 = x * s + y * c;
     if (center) {
-      this.x += center.x;
-      this.y += center.y;
+      x1 += center.x;
+      y1 += center.y;
     }
+    this.x = x1;
+    this.y = y1;
     return this;
   },
 
-  rotateDeg: function(angle, center) {
-    return this.rotate(degreesToRadian(angle, center));
-  },
-
-  rotateTo: function(rotation) {
-    return this.rotate(rotation - this.angle());
-  },
-
-  rotateToDeg: function(rotation) {
-    return this.rotateTo(degreesToRadian(rotation));
-  },
-
   rotateBy: function(rotation) {
-    return this.rotate(this.angle() + rotation);
-  },
-
-  rotateByDeg: function(rotation) {
-    return this.rotateBy(degreesToRadian(rotation));
+    return this.rotate(this.getAngle() + rotation);
   },
 
   /**
@@ -905,8 +906,8 @@ Point.prototype = {
    * @return {Number} Distance
    * @api public
    */
-  distance: function(point) {
-    return Math.sqrt(this.distanceSq(point));
+  getDistance: function(point) {
+    return Math.sqrt(this.getDistanceSquared(point));
   },
 
   /**
@@ -916,14 +917,14 @@ Point.prototype = {
    *     var point1 = new Point(100, 50);
    *     var point = new Point(200, 60);
    *
-   *     point1.distanceSq(point);
+   *     point1.getDistanceSquared(point);
    *     // => 10100
    *
    * @param {Point} point The second point
    * @return {Number} Distance
    * @api public
    */
-  distanceSq: function(point) {
+  getDistanceSquared: function(point) {
     var dx = this.x - point.x;
     var dy = this.y - point.y;
     return dx * dx + dy * dy;
@@ -941,8 +942,33 @@ Point.prototype = {
    * @return {Number} Length / Magnitude
    * @api public
    */
-  length: function() {
-    return Math.sqrt(this.lengthSq());
+  getLength: function() {
+    return Math.sqrt(this.getLengthSquared());
+  },
+
+  /**
+   * The length of the point
+   *
+   * ### Examples:
+   *     var point = new Point(10, 0);
+   *
+   *     point.length;
+   *     // => 10
+   *
+   * @api public
+   */
+  get length() {
+    return this.getLength();
+  },
+
+  // double-dog-leg hypothenuse approximation
+  // http://forums.parallax.com/discussion/147522/dog-leg-hypotenuse-approximation
+  getApproximateLength: function() {
+    var x = Math.abs(this.x);
+    var y = Math.abs(this.y);
+    var lo = Math.min(x, y);
+    var hi = Math.max(x, y);
+    return hi + 3 * lo / 32 + Math.max(0, 2 * lo - hi) / 8 + Math.max(0, 4 * lo - hi) / 16;
   },
 
   /**
@@ -951,14 +977,18 @@ Point.prototype = {
    * ### Examples:
    *     var point = new Point(100, 50);
    *
-   *     point.lengthSq();
+   *     point.getLengthSquared();
    *     // => 12500
    *
    * @return {Number} Length / Magnitude
    * @api public
    */
-  lengthSq: function() {
+  getLengthSquared: function() {
     return this.x * this.x + this.y * this.y;
+  },
+
+  set length(length) {
+    this.setLength(length);
   },
 
   /**
@@ -973,7 +1003,7 @@ Point.prototype = {
       this.x = Math.cos(angle) * length;
       this.y = Math.sin(angle) * length;
     } else {
-      var scale = length / this.length();
+      var scale = length / this.getLength();
       this.x = this.x * scale;
       this.y = this.y * scale;
     }
@@ -987,12 +1017,18 @@ Point.prototype = {
    * @return {Point} `this` for chaining capabilities
    */
   limitLength: function(length) {
-    var len = this.length();
+    var len = this.getLength();
     if (len > length) {
       var scale = length / len;
       this.x = this.x * scale;
       this.y = this.y * scale;
     }
+    return this;
+  },
+
+  inverse: function() {
+    this.x = 1.0 / this.x;
+    this.y = 1.0 / this.y;
     return this;
   },
 
@@ -1005,7 +1041,7 @@ Point.prototype = {
    * @api public
    */
   isClose: function(point, tolerance) {
-    return this.distanceSq(point) < (tolerance * tolerance);
+    return this.getDistanceSquared(point) < (tolerance * tolerance);
   },
 
   /**
@@ -1016,7 +1052,7 @@ Point.prototype = {
    * @returns {Boolean} true if it is colinear
    */
   isCollinear: function(point) {
-    return Math.abs(this.cross(point)) < EPSILON;
+    return numerical.isZero(Math.abs(this.cross(point)));
   },
 
   /**
@@ -1027,7 +1063,7 @@ Point.prototype = {
    * @returns {Boolean} true if it is orthogonal, false otherwise
    */
   isOrthogonal: function(point) {
-    return Math.abs(this.dot(point)) < EPSILON;
+    return numerical.isZero(Math.abs(this.dot(point)));
   },
 
   /**
@@ -1043,7 +1079,7 @@ Point.prototype = {
    * @api public
    */
   isZero: function() {
-    return this.x === 0 && this.y === 0;
+    return numerical.isZero(this.x) && numerical.isZero(this.y);
   },
 
   /**
@@ -1081,7 +1117,7 @@ Point.prototype = {
    * @api public
    */
   toString: function() {
-    return '{ x: ' + fNumber(this.x) + ', y: ' + fNumber(this.y) + ' }';
+    return '{ x: ' + numerical.format(this.x) + ', y: ' + numerical.format(this.y) + ' }';
   },
 
   /**
@@ -1117,8 +1153,8 @@ Point.prototype = {
   }
 };
 
-Point.prototype.horizontalAngle = Point.prototype.angle;
-Point.prototype.horizontalAngleDeg = Point.prototype.angleDeg;
+Point.prototype.getHorizontalAngle = Point.prototype.getAngle;
+Point.prototype.getHorizontalAngleDeg = Point.prototype.getAngleInDegrees;
 
 /**
  * # Static
@@ -1164,6 +1200,12 @@ Point.fromObject = function(obj) {
     obj.x || 0,
     obj.y || 0
   );
+};
+
+Point.fromAngleWithLength = function(angle, length) {
+  var point = new Point(length, 0);
+  point.setAngle(angle);
+  return point;
 };
 
 /**
@@ -1247,35 +1289,3 @@ Point.max = function(point1, point2) {
     Math.max(point1.y, point2.y)
   );
 };
-
-// Precision when comparing against 0
-// References:
-//  http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html
-//  http://www.cs.berkeley.edu/~wkahan/Math128/Cubic.pdf
-/**
- * A very small absolute value used to check if a value is very close to
- * zero. The value should be large enough to offset any floating point
- * noise, but small enough to be meaningful in computation in a nominal
- * range (see MACHINE_EPSILON).
- */
-var EPSILON = 1e-12;
-var DEGREES = 180 / Math.PI;
-
-function mix(value1, value2, ratio) {
-  return value1 * (1 - ratio) + value2 * ratio;
-}
-
-function radianToDegrees (rad) {
-  return rad * DEGREES;
-}
-
-function degreesToRadian (deg) {
-  return deg / DEGREES;
-}
-
-function fNumber(number) {
-  // It would be nice to use Number#toFixed() instead, but it pads with 0,
-  // unecessarily consuming space.
-  var multiplier = 100000; // Math.pow(10, 5), where 5 is the amount of fractional digits
-  return Math.round(number * multiplier) / multiplier;
-}

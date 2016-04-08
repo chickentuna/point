@@ -40,86 +40,6 @@ The Y coordinate
     point.y;
     // => 21
 
-# Static
-
-## Point.fromArray(array)
-
-Creates a new instance from an array
-
-### Examples:
-    var point = Point.fromArray([42, 21]);
-
-    point.toString();
-    // => x:42, y:21
-
-### Params:
-
-* **Array** *array* Array with the x and y coordinates at index 0 and 1 respectively
-
-### Return:
-
-* **Point** The new instance
-
-## Point.fromObject(obj)
-
-Creates a new instance from an object
-
-### Examples:
-    var point = Point.fromObject({ x: 42, y: 21 });
-
-    point.toString();
-    // => x:42, y:21
-
-### Params:
-
-* **Object** *obj* Object with the values for x and y
-
-### Return:
-
-* **Point** The new instance
-
-## Point.random()
-
-Creates a new instance with random x and y coordinates between 0 and 1,
-
-### Examples:
-    var randomVector = Point.random();
-
-    point.toString();
-    // => x:0.0273982 y: 0.9784389
-
-### Return:
-
-* **Point** The new instance
-
-## Point.min(point1, point2)
-
-Returns a new point object with the smallest x and y of the
-supplied points.
-
-### Params:
-
-* **Point** *point1* 
-* **Point** *point2* 
-
-### Return:
-
-* **Point** The new instance
-
-## Point.max(point1, point2)
-
-Returns a new point object with the largest x and y of the
-supplied points.
-
-### Params:
-
-* **Point** *point1* 
-* **Point** *point2* 
-
-### Return:
-
-* **Point** The new instance
-
 ## Point
 
 # Manipulation
@@ -141,6 +61,26 @@ Adds another vector to this one
 ### Params:
 
 * **Point** *vector* The other vector you want to add to this one
+
+### Return:
+
+* **Point** `this` for chaining capabilities
+
+## set(x, y)
+
+Sets the x and y coordinates of the point
+
+### Examples:
+    var point = new Point();
+    point.set(10, 10);
+
+    point1.toString();
+    // => x:10, y:10
+
+### Params:
+
+* **Number** *x* 
+* **Number** *y* 
 
 ### Return:
 
@@ -629,25 +569,6 @@ than or equal to the given coordinates
 
 * **Point** `this` for chaining capabilities
 
-## toFixed(Precision)
-
-Rounds the X and Y coordinates of the point to a certain precision
-
-### Examples:
-    var point = new Point(100.2, 50.9);
-
-    point.unfloat();
-    point.toString();
-    // => x:100, y:51
-
-### Params:
-
-* **Number** *Precision* (default: 8)
-
-### Return:
-
-* **Point** `this` for chaining capabilities
-
 ## mix(point, amount)
 
 Performs a linear blend / interpolation towards another point
@@ -693,14 +614,30 @@ Copies another point's X and Y coordinates to its own
 ### Examples:
     var point1 = new Point(10, 10);
     var point = new Point(20, 20);
-    var point = point1.copy(point1);
+    point1.copy(point);
 
-    point.toString();
+    point1.toString();
     // => x:20, y:20
 
 ### Return:
 
 * **Point** `this` for chaining capabilities
+
+## getVector()
+
+Returns the vector from this point to the supplied point
+
+### Examples:
+    var point = new Point(10, 10);
+    var point1 = new Point(15, 15);
+    var vector = point.getVector(point1);
+
+    vector.toString();
+    // => x:5, y:5
+
+### Return:
+
+* **Point** The vector
 
 ## zero()
 
@@ -733,7 +670,7 @@ Calculates the dot product of this vector and another
 
 ### Return:
 
-* **Number** the dor product of the two points
+* **Number** the dot product of the two points
 
 ## cross(vector)
 
@@ -767,18 +704,15 @@ Projects a vector onto this vector, setting itself to the result.
 
 * **Point** `this` for chaining capabilities
 
-## angleTo(point)
+## angle
 
-Returns the smaller angle between two vectors in radians. The angle is
-unsigned, no information about rotational direction is given.
+The angle
 
-### Params:
+### Examples:
+    var point = new Point(10, 0);
 
-* **Point** *point* 
-
-### Return:
-
-* **Number** the angle in radians
+    point.angle;
+    // => 90
 
 ## rotate(angle, center)
 
@@ -793,7 +727,7 @@ Rotates the point by the given angle around an optional center point.
 
 * **Point** `this` for chaining capabilities
 
-## distance(point)
+## getDistance(point)
 
 Calculates the euclidean distance between this point and another
 
@@ -812,7 +746,7 @@ Calculates the euclidean distance between this point and another
 
 * **Number** Distance
 
-## distanceSq(point)
+## getDistanceSquared(point)
 
 Calculates the squared euclidean distance between this point and another
 
@@ -820,7 +754,7 @@ Calculates the squared euclidean distance between this point and another
     var point1 = new Point(100, 50);
     var point = new Point(200, 60);
 
-    point1.distanceSq(point);
+    point1.getDistanceSquared(point);
     // => 10100
 
 ### Params:
@@ -831,7 +765,7 @@ Calculates the squared euclidean distance between this point and another
 
 * **Number** Distance
 
-## length()
+## getLength()
 
 Calculates the length or magnitude of the point
 
@@ -845,14 +779,14 @@ Calculates the length or magnitude of the point
 
 * **Number** Length / Magnitude
 
-## lengthSq()
+## getLengthSquared()
 
 Squared length / magnitude
 
 ### Examples:
     var point = new Point(100, 50);
 
-    point.lengthSq();
+    point.getLengthSquared();
     // => 12500
 
 ### Return:
@@ -894,11 +828,11 @@ Checks if the point is within a given distance of another point.
 
 ### Return:
 
-* **Boolean** true if it is within the given distance
+* **Boolean** true if it is within the given distance, false otherwise
 
-## isColinear(point)
+## isCollinear(point)
 
-Checks if the vector represented by this point is colinear (parallel) to
+Checks if the vector represented by this point is collinear (parallel) to
 another vector.
 
 ### Params:
@@ -920,7 +854,7 @@ Checks if the vector represented by this point is orthogonal
 
 ### Return:
 
-* **Boolean** true if it is orthogonal
+* **Boolean** true if it is orthogonal, false otherwise
 
 ## isZero()
 
@@ -938,7 +872,8 @@ Checks whether the point's X and Y coordinates are both 0
 
 ## equals()
 
-Returns a true if this point is the same as another
+Checks whether the coordinates of the point are equal to that of the
+supplied point.
 
 ### Examples:
     var point1 = new Point(100, 50);
@@ -949,7 +884,7 @@ Returns a true if this point is the same as another
 
 ### Return:
 
-* **Boolean** 
+* **Boolean** true if the coordinates are equal, false otherwise
 
 # Utility Methods
 
@@ -994,6 +929,105 @@ Returns an object representation of the point
 ### Return:
 
 * **Object** 
+
+# Static
+
+## Point.fromArray(array)
+
+Creates a new instance from an array
+
+### Examples:
+    var point = Point.fromArray([42, 21]);
+
+    point.toString();
+    // => x:42, y:21
+
+### Params:
+
+* **Array** *array* Array with the x and y coordinates at index 0 and 1 respectively
+
+### Return:
+
+* **Point** The new instance
+
+## Point.fromObject(obj)
+
+Creates a new instance from an object
+
+### Examples:
+    var point = Point.fromObject({ x: 42, y: 21 });
+
+    point.toString();
+    // => x:42, y:21
+
+### Params:
+
+* **Object** *obj* Object with the values for x and y
+
+### Return:
+
+* **Point** The new instance
+
+## Point.randomVector(scale)
+
+Generates a random vector between 0 and 360 degrees with the given length,
+or a length of 1 if none was provided
+
+### Examples:
+    var randomVector = Point.random();
+
+    point.toString();
+    // => x:0.0273982 y: 0.9784389
+
+### Params:
+
+* *scale* Length of the resulting vector. If ommitted, a unit vector will be returned
+
+### Return:
+
+* **Point** The new instance
+
+## Point.random()
+
+Generates a random point with X and Y coordinates between 0 and 1
+
+### Examples:
+    var randomVector = Point.random();
+
+    point.toString();
+    // => x:0.0273982 y: 0.9784389
+
+### Return:
+
+* **Point** The new instance
+
+## Point.min(point1, point2)
+
+Returns a new point object with the smallest x and y of the
+supplied points.
+
+### Params:
+
+* **Point** *point1* 
+* **Point** *point2* 
+
+### Return:
+
+* **Point** The new instance
+
+## Point.max(point1, point2)
+
+Returns a new point object with the largest x and y of the
+supplied points.
+
+### Params:
+
+* **Point** *point1* 
+* **Point** *point2* 
+
+### Return:
+
+* **Point** The new instance
 
 <!-- End index.js -->
 

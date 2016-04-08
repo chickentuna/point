@@ -25,7 +25,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 !function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Point=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
-exports = module.exports = Point;
+module.exports = Point;
+
+var numerical = _dereq_('./lib/numerical');
 
 /**
  * # Point - A JavaScript 2D point class with methods for common vector operations
@@ -37,14 +39,14 @@ exports = module.exports = Point;
  * ### Examples:
  *     var point1 = new Point(100, 50);
  *
- * @param {Number} x Value of the x axis
- * @param {Number} y Value of the y axis
+ * @param {Number} x Value of the x coordinate
+ * @param {Number} y Value of the y coordinate
  * @return {Point}
  * @api public
  */
 function Point (x, y) {
   /**
-   * The X axis
+   * The X coordinate
    *
    * ### Examples:
    *     var point = new Point(42, 21);
@@ -54,10 +56,10 @@ function Point (x, y) {
    *
    * @api public
    */
-  this.x = x || 0;
+  this.x = x || 0.0;
 
   /**
-   * The Y axis
+   * The Y coordinate
    *
    * ### Examples:
    *     var point = new Point(42, 21);
@@ -67,111 +69,7 @@ function Point (x, y) {
    *
    * @api public
    */
-  this.y = y || 0;
-};
-
-/**
- * # Static
- */
-
-/**
- * Creates a new instance from an array
- *
- * ### Examples:
- *     var point = Point.fromArray([42, 21]);
- *
- *     point.toString();
- *     // => x:42, y:21
- *
- * @name Point.fromArray
- * @param {Array} array Array with the x and y values at index 0 and 1 respectively
- * @return {Point} The new instance
- * @api public
- */
-Point.fromArray = function(arr) {
-  return new Point(
-    arr[0] || 0,
-    arr[1] || 0
-  );
-},
-
-/**
- * Creates a new instance from an object
- *
- * ### Examples:
- *     var point = Point.fromObject({ x: 42, y: 21 });
- *
- *     point.toString();
- *     // => x:42, y:21
- *
- * @name Point.fromObject
- * @param {Object} obj Object with the values for x and y
- * @return {Point} The new instance
- * @api public
- */
-Point.fromObject = function(obj) {
-  return new Point(
-    obj.x || 0,
-    obj.y || 0
-  );
-},
-
-/**
- * Creates a new instance with random x and y values between 0 and 1,
- *
- * ### Examples:
- *     var randomVector = Point.random();
- *
- *     point.toString();
- *     // => x:0.0273982 y: 0.9784389
- *
- * @name Point.random
- * @return {Point} The new instance
- * @api public
- */
-Point.random = function() {
-  return new Point(
-    Math.random(),
-    Math.random()
-  );
-},
-
-/**
- * Returns a new point object with the smallest x and y of the
- * supplied points.
- *
- * @static
- * @param {Point} point1
- * @param {Point} point2
-  *
- * @name Point.min
- * @return {Point} The new instance
- * @api public
- */
-Point.min = function(point1, point2) {
-  return new Point(
-    Math.min(point1.x, point2.x),
-    Math.min(point1.y, point2.y)
-  );
-}
-
-/**
- * Returns a new point object with the largest x and y of the
- * supplied points.
- *
- * @static
- * @param {Point} point1
- * @param {Point} point2
-  *
- * @name Point.min
- * @return {Point} The new instance
- * @api public
- */
-Point.max = function(point1, point2) {
-  return new Point(
-    Math.max(point1.x, point2.x),
-    Math.max(point1.y, point2.y)
-  );
+  this.y = y || 0.0;
 }
 
 /**
@@ -203,7 +101,28 @@ Point.prototype = {
   },
 
   /**
-   * Adds the given number to both point components
+   * Sets the x and y coordinates of the point
+   *
+   * ### Examples:
+   *     var point = new Point();
+   *     point.set(10, 10);
+   *
+   *     point1.toString();
+   *     // => x:10, y:10
+   *
+   * @param {Number} x
+   * @param {Number} y
+   * @return {Point} `this` for chaining capabilities
+   * @api public
+   */
+  set: function(x, y) {
+    this.x = x;
+    this.y = y;
+    return this;
+  },
+
+  /**
+   * Adds the given number to both point coordinates
    *
    * ### Examples:
    *     var point = new Point(1, 2);
@@ -228,7 +147,7 @@ Point.prototype = {
    * ### Examples:
    *     var point = new Point(1, 2);
    *
-   *     point.addNumX(2);
+   *     point.addX(2);
    *     point.toString();
    *     // => x: 3, y: 2
    *
@@ -247,7 +166,7 @@ Point.prototype = {
    * ### Examples:
    *     var point = new Point(1, 2);
    *
-   *     point.addNumY(2);
+   *     point.addY(2);
    *     point.toString();
    *     // => x: 1, y: 4
    *
@@ -326,7 +245,7 @@ Point.prototype = {
    * ### Examples:
    *     var point = new Point(100, 200);
    *
-   *     point.subtractNumY(20);
+   *     point.subtractY(20);
    *     point.toString();
    *     // => x: 100, y: 180
    *
@@ -340,7 +259,7 @@ Point.prototype = {
   },
 
   /**
-   * Divides both vector axis by a axis values of given vector
+   * Divides X and Y coordinates of the point by those of the given point
    *
    * ### Examples:
    *     var point = new Point(100, 50);
@@ -354,14 +273,14 @@ Point.prototype = {
    * @return {Point} `this` for chaining capabilities
    * @api public
    */
-  divide: function(vector) {
-    this.x /= vector.x;
-    this.y /= vector.y;
+  divide: function(point) {
+    this.x /= point.x;
+    this.y /= point.y;
     return this;
   },
 
   /**
-   * Divides both vector axis by the given number value
+   * Divides X and Y coordinates of the point by those of the given number
    *
    * ### Examples:
    *     var point = new Point(100, 50);
@@ -370,7 +289,7 @@ Point.prototype = {
    *     point.toString();
    *     // => x:50, y:25
    *
-   * @param {Number} The number to divide by
+   * @param {Number} number The number to divide by
    * @return {Point} `this` for chaining capabilities
    * @api public
    */
@@ -508,7 +427,7 @@ Point.prototype = {
 
   /**
    * Sets the integer remainders of dividing the point's
-   * components by the supplied number
+   * coordinates by the supplied number
    *
    * ### Examples:
      * var point = new Point(12, 6);
@@ -557,7 +476,7 @@ Point.prototype = {
    * @api public
    */
   moduloY: function(number) {
-    this.x = this.x % number;
+    this.y = this.y % number;
     return this;
   },
 
@@ -592,7 +511,7 @@ Point.prototype = {
    *     point.toString();
    *     // => x:200, y:100
    *
-   * @param {Number} The number to multiply by
+   * @param {Number} number The number to multiply by
    * @return {Point} `this` for chaining capabilities
    * @api public
    */
@@ -612,7 +531,7 @@ Point.prototype = {
    *     point.toString();
    *     // => x:200, y:50
    *
-   * @param {Number} The number to multiply the axis with
+   * @param {Number} The number to multiply the X coordinate with
    * @return {Victor} `this` for chaining capabilities
    * @api public
    */
@@ -631,7 +550,7 @@ Point.prototype = {
    *     point.toString();
    *     // => x:100, y:100
    *
-   * @param {Number} The number to multiply the axis with
+   * @param {Number} number The number to multiply the Y coordinate with
    * @return {Victor} `this` for chaining capabilities
    * @api public
    */
@@ -645,7 +564,7 @@ Point.prototype = {
    * changing its angle. The optional
    * length parameter defines the length to normalize to.
    *
-   * @param {Number} The length of the normalized vector
+   * @param {Number} length The length of the normalized vector
    * @return {Point} the normalized vector of the vector that is represented
    *                 by this point's X and Y coordinates
    *
@@ -655,7 +574,7 @@ Point.prototype = {
   normalize: function(length) {
     if (length === undefined)
       length = 1;
-    var current = this.length();
+    var current = this.getLength();
 
     var scale = current !== 0
       ? length / current
@@ -744,28 +663,6 @@ Point.prototype = {
   },
 
   /**
-   * Rounds the X and Y coordinates of the point to a certain precision
-   *
-   * ### Examples:
-   *     var point = new Point(100.2, 50.9);
-   *
-   *     point.unfloat();
-   *     point.toString();
-   *     // => x:100, y:51
-   *
-   * @param {Number} Precision (default: 8)
-   * @return {Point} `this` for chaining capabilities
-   * @api public
-   */
-  toFixed: function(precision) {
-    if (typeof precision === 'undefined')
-      precision = 8;
-    this.x = this.x.toFixed(precision);
-    this.y = this.y.toFixed(precision);
-    return this;
-  },
-
-  /**
    * Performs a linear blend / interpolation towards another point
    *
    * ### Examples:
@@ -782,8 +679,8 @@ Point.prototype = {
    * @api public
    */
   mix: function(point, amount) {
-    this.x = mix(this.x, point.x, amount);
-    this.y = mix(this.y, point.y, amount);
+    this.x = numerical.mix(this.x, point.x, amount);
+    this.y = numerical.mix(this.y, point.y, amount);
     return this;
   },
 
@@ -814,9 +711,9 @@ Point.prototype = {
    * ### Examples:
    *     var point1 = new Point(10, 10);
    *     var point = new Point(20, 20);
-   *     var point = point1.copy(point1);
+   *     point1.copy(point);
    *
-   *     point.toString();
+   *     point1.toString();
    *     // => x:20, y:20
    *
    * @return {Point} `this` for chaining capabilities
@@ -826,6 +723,24 @@ Point.prototype = {
     this.x = point.x;
     this.y = point.y;
     return this;
+  },
+
+  /**
+   * Returns the vector from this point to the supplied point
+   *
+   * ### Examples:
+   *     var point = new Point(10, 10);
+   *     var point1 = new Point(15, 15);
+   *     var vector = point.getVector(point1);
+   *
+   *     vector.toString();
+   *     // => x:5, y:5
+   *
+   * @return {Point} The vector
+   * @api public
+   */
+  getVector: function(point) {
+    return point.clone().subtract(this);
   },
 
   /**
@@ -856,7 +771,7 @@ Point.prototype = {
    *     // => 23000
    *
    * @param {Point} vector The second vector
-   * @return {Number} the dor product of the two points
+   * @return {Number} the dot product of the two points
    * @api public
    */
   dot: function(point) {
@@ -891,71 +806,83 @@ Point.prototype = {
   project: function(vector) {
     var coeff = vector.isZero()
       ? 0
-      : this.dot(vector) / vector.lengthSq();
+      : this.dot(vector) / vector.getLengthSquared();
     this.x = coeff * vector.x;
     this.y = coeff * vector.y;
     return this;
   },
 
-  angle: function() {
-    return this.isZero()
-      // Return the preserved angle in case the vector has no
-      // length, and update the internal _angle in case the
-      // vector has a length. See #setAngle() for more
-      // explanations.
-      ? this._angle || 0
-      : this._angle = Math.atan2(this.y, this.x);
-  },
-
   /**
-   * Returns the smaller angle between two vectors in radians. The angle is
-   * unsigned, no information about rotational direction is given.
+   * The angle
    *
-   * @param {Point} point
-   * @return {Number} the angle in radians
+   * ### Examples:
+   *     var point = new Point(10, 0);
+   *
+   *     point.angle;
+   *     // => 90
+   *
    * @api public
    */
-  angleTo: function(point) {
-    var div = this.length() * point.length();
-    if (div === 0) {
-      return NaN;
+  get angle() {
+    return this.getAngle();
+  },
+
+  getAngle: function(point) {
+    return numerical.radiansToDegrees(this.getAngleInRadians(point))
+  },
+
+  getAngleInRadians: function(point) {
+    if (!point) {
+      return this.isZero()
+        // Return the preserved angle in case the vector has no
+        // length, and update the internal _angle in case the
+        // vector has a length. See #setAngle() for more
+        // explanations.
+        ? this._angle || 0
+        : this._angle = Math.atan2(this.y, this.x);
     } else {
-      var a = this.dot(point) / div;
-      return Math.acos(
-        a < -1
-          ? -1
-          : a > 1
-            ? 1
-            : a
-      );
+      var div = this.getLength() * point.getLength();
+      if (numerical.isZero(div)) {
+        return NaN;
+      } else {
+        var a = this.dot(point) / div;
+        return Math.acos(
+          a < -1
+            ? -1
+            : a > 1
+              ? 1
+              : a
+        );
+      }
     }
   },
 
+  getDirectedAngle: function(point) {
+    return Math.atan2(this.cross(point), this.dot(point)) * 180 / Math.PI;
+  },
+
+  set angle(angle) {
+    this.setAngle(angle);
+  },
+
   setAngle: function(angle) {
+    this.setAngleInRadians(numerical.degreesToRadians(angle));
+    return this;
+  },
+
+  setAngleInRadians: function(angle) {
+    // We store a reference to _angle internally so we still preserve it
+    // when the vector's length is set to zero, and then anything else.
+    // Note that we cannot rely on it if x and y are something else than 0,
+    // since updating x / y does not automatically change _angle!
     this._angle = angle;
+    console.log(this.isZero())
     if (!this.isZero()) {
-      var length = this.length();
+      var length = this.getLength();
       this.x = Math.cos(angle) * length;
       this.y = Math.sin(angle) * length;
     }
     return this;
-  },
-
-  setAngleDeg: function(angle) {
-    this.setAngle(radianToDegrees(angle));
-    return this;
-  },
-
-  angleDeg: function() {
-    return radianToDegrees(this.horizontalAngle());
-  },
-
-  verticalAngle: function() {
-    return Math.atan2(this.x, this.y);
-  },
-
-  verticalAngleDeg: function() {
-    return radianToDegrees(this.verticalAngle());
   },
 
   /**
@@ -963,46 +890,33 @@ Point.prototype = {
    *
    * @param {Number} angle the rotation angle in radian
    * @param {Point} center the optional center point of the rotation
-   * @returns {Point} the rotated point
+   * @return {Point} `this` for chaining capabilities
    */
   rotate: function(angle, center) {
     if (angle === 0)
-      return this;
+        return this;
+    var radians = numerical.degreesToRadians(angle);
+    var s = Math.sin(radians);
+    var c = Math.cos(radians);
     var x = this.x;
     var y = this.y;
     if (center) {
-      x -= center.x;
-      y -= center.y;
+       x -= center.x;
+       y -= center.y;
     }
-    var s = Math.sin(angle);
-    var c = Math.cos(angle);
-    this.x = x * c - y * s;
-    this.y = x * s + y * c;
+    var x1 = x * c - y * s;
+    var y1 = x * s + y * c;
     if (center) {
-      this.x += center.x;
-      this.y += center.y;
+      x1 += center.x;
+      y1 += center.y;
     }
+    this.x = x1;
+    this.y = y1;
     return this;
   },
 
-  rotateDeg: function(angle, center) {
-    return this.rotate(degreesToRadian(angle, center));
-  },
-
-  rotateTo: function(rotation) {
-    return this.rotate(rotation - this.angle());
-  },
-
-  rotateToDeg: function(rotation) {
-    return this.rotateTo(degreesToRadian(rotation));
-  },
-
   rotateBy: function(rotation) {
-    return this.rotate(this.angle() + rotation);
-  },
-
-  rotateByDeg: function(rotation) {
-    return this.rotateBy(degreesToRadian(rotation));
+    return this.rotate(this.getAngle() + rotation);
   },
 
   /**
@@ -1015,12 +929,12 @@ Point.prototype = {
    *     point1.distance(point);
    *     // => 100.4987562112089
    *
-   * @param {Point} vector The second vector
+   * @param {Point} point The second point
    * @return {Number} Distance
    * @api public
    */
-  distance: function(point) {
-    return Math.sqrt(this.distanceSq(point));
+  getDistance: function(point) {
+    return Math.sqrt(this.getDistanceSquared(point));
   },
 
   /**
@@ -1030,14 +944,14 @@ Point.prototype = {
    *     var point1 = new Point(100, 50);
    *     var point = new Point(200, 60);
    *
-   *     point1.distanceSq(point);
+   *     point1.getDistanceSquared(point);
    *     // => 10100
    *
    * @param {Point} point The second point
    * @return {Number} Distance
    * @api public
    */
-  distanceSq: function(point) {
+  getDistanceSquared: function(point) {
     var dx = this.x - point.x;
     var dy = this.y - point.y;
     return dx * dx + dy * dy;
@@ -1055,8 +969,22 @@ Point.prototype = {
    * @return {Number} Length / Magnitude
    * @api public
    */
-  length: function() {
-    return Math.sqrt(this.lengthSq());
+  getLength: function() {
+    return Math.sqrt(this.getLengthSquared());
+  },
+
+  get length() {
+    return this.getLength();
+  },
+
+  // double-dog-leg hypothenuse approximation
+  // http://forums.parallax.com/discussion/147522/dog-leg-hypotenuse-approximation
+  getApproximateLength: function() {
+    var x = Math.abs(this.x);
+    var y = Math.abs(this.y);
+    var lo = Math.min(x, y);
+    var hi = Math.max(x, y);
+    return hi + 3 * lo / 32 + Math.max(0, 2 * lo - hi) / 8 + Math.max(0, 4 * lo - hi) / 16;
   },
 
   /**
@@ -1065,36 +993,58 @@ Point.prototype = {
    * ### Examples:
    *     var point = new Point(100, 50);
    *
-   *     point.lengthSq();
+   *     point.getLengthSquared();
    *     // => 12500
    *
    * @return {Number} Length / Magnitude
    * @api public
    */
-  lengthSq: function() {
+  getLengthSquared: function() {
     return this.x * this.x + this.y * this.y;
   },
 
+  set length(length) {
+    this.setLength(length);
+  },
+
+  /**
+   * Changes the location of the vector, but keeps it's angle.
+   *
+   * @param {Number} length
+   * @return {Point} `this` for chaining capabilities
+   */
   setLength: function(length) {
     if (this.isZero()) {
       var angle = this._angle || 0;
       this.x = Math.cos(angle) * length;
       this.y = Math.sin(angle) * length;
     } else {
-      var scale = length / this.length();
+      var scale = length / this.getLength();
       this.x = this.x * scale;
       this.y = this.y * scale;
     }
     return this;
   },
 
+  /**
+   * Limits the length of the vector, but keeps it's angle.
+   *
+   * @param {Number} length
+   * @return {Point} `this` for chaining capabilities
+   */
   limitLength: function(length) {
-    var thisLength = this.length();
-    if (thisLength > length) {
-      var scale = length / thisLength;
+    var len = this.getLength();
+    if (len > length) {
+      var scale = length / len;
       this.x = this.x * scale;
       this.y = this.y * scale;
     }
+    return this;
+  },
+
+  inverse: function() {
+    this.x = 1.0 / this.x;
+    this.y = 1.0 / this.y;
     return this;
   },
 
@@ -1103,22 +1053,22 @@ Point.prototype = {
    *
    * @param {Point} point the point to check against
    * @param {Number} tolerance the maximum distance allowed
-   * @returns {Boolean} true if it is within the given distance
+   * @returns {Boolean} true if it is within the given distance, false otherwise
    * @api public
    */
   isClose: function(point, tolerance) {
-    return this.distanceSq(point) < (tolerance * tolerance);
+    return this.getDistanceSquared(point) < (tolerance * tolerance);
   },
 
   /**
-   * Checks if the vector represented by this point is colinear (parallel) to
+   * Checks if the vector represented by this point is collinear (parallel) to
    * another vector.
    *
    * @param {Point} point the vector to check against
    * @returns {Boolean} true if it is colinear
    */
-  isColinear: function(point) {
-    return Math.abs(this.cross(point)) < 0;
+  isCollinear: function(point) {
+    return numerical.isZero(Math.abs(this.cross(point)));
   },
 
   /**
@@ -1126,10 +1076,10 @@ Point.prototype = {
    * (perpendicular) to another vector.
    *
    * @param {Point} point the vector to check against
-   * @returns {Boolean} true if it is orthogonal
+   * @returns {Boolean} true if it is orthogonal, false otherwise
    */
   isOrthogonal: function(point) {
-    return Math.abs(this.dot(point)) < 0;
+    return numerical.isZero(Math.abs(this.dot(point)));
   },
 
   /**
@@ -1145,11 +1095,12 @@ Point.prototype = {
    * @api public
    */
   isZero: function() {
-    return this.x === 0 && this.y === 0;
+    return numerical.isZero(this.x) && numerical.isZero(this.y);
   },
 
   /**
-   * Returns a true if this point is the same as another
+   * Checks whether the coordinates of the point are equal to that of the
+   * supplied point.
    *
    * ### Examples:
    *     var point1 = new Point(100, 50);
@@ -1158,7 +1109,7 @@ Point.prototype = {
    *     point1.equals(point);
    *     // => true
    *
-   * @return {Boolean}
+   * @return {Boolean} true if the coordinates are equal, false otherwise
    * @api public
    */
   equals: function(point) {
@@ -1182,7 +1133,7 @@ Point.prototype = {
    * @api public
    */
   toString: function() {
-    return 'x:' + this.x + ', y:' + this.y;
+    return '{ x: ' + numerical.format(this.x) + ', y: ' + numerical.format(this.y) + ' }';
   },
 
   /**
@@ -1198,7 +1149,7 @@ Point.prototype = {
    * @api public
    */
   toArray: function() {
-    return [ this.x, this.y ];
+    return [this.x, this.y];
   },
 
   /**
@@ -1218,21 +1169,182 @@ Point.prototype = {
   }
 };
 
-Point.prototype.horizontalAngle = Point.prototype.angle;
-Point.prototype.horizontalAngleDeg = Point.prototype.angleDeg;
+Point.prototype.getHorizontalAngle = Point.prototype.getAngle;
+Point.prototype.getHorizontalAngleDeg = Point.prototype.getAngleInDegrees;
 
-var degrees = 180 / Math.PI;
+/**
+ * # Static
+ */
 
-function mix(value1, value2, ratio) {
-  return value1 * (1 - ratio) + value2 * ratio;
-}
+/**
+ * Creates a new instance from an array
+ *
+ * ### Examples:
+ *     var point = Point.fromArray([42, 21]);
+ *
+ *     point.toString();
+ *     // => x:42, y:21
+ *
+ * @name Point.fromArray
+ * @param {Array} array Array with the x and y coordinates at index 0 and 1 respectively
+ * @return {Point} The new instance
+ * @api public
+ */
+Point.fromArray = function(arr) {
+  return new Point(
+    arr[0] || 0,
+    arr[1] || 0
+  );
+};
 
-function radianToDegrees (rad) {
-  return rad * degrees;
-}
+/**
+ * Creates a new instance from an object
+ *
+ * ### Examples:
+ *     var point = Point.fromObject({ x: 42, y: 21 });
+ *
+ *     point.toString();
+ *     // => x:42, y:21
+ *
+ * @name Point.fromObject
+ * @param {Object} obj Object with the values for x and y
+ * @return {Point} The new instance
+ * @api public
+ */
+Point.fromObject = function(obj) {
+  return new Point(
+    obj.x || 0,
+    obj.y || 0
+  );
+};
 
-function degreesToRadian (deg) {
-  return deg / degrees;
+Point.fromAngleWithLength = function(angle, length) {
+  var point = new Point(length, 0);
+  point.setAngle(angle);
+  return point;
+};
+
+/**
+ * Generates a random vector between 0 and 360 degrees with the given length,
+ * or a length of 1 if none was provided
+ * 
+ * ### Examples:
+ *     var randomVector = Point.random();
+ *
+ *     point.toString();
+ *     // => x:0.0273982 y: 0.9784389
+ *
+ * @name Point.randomVector
+ * @param scale Length of the resulting vector. If ommitted, a unit vector will be returned
+ * @return {Point} The new instance
+ * @api public
+ */
+Point.randomVector = function(length) {
+  length = length || 1.0;
+  var r = Math.random() * 2.0 * Math.PI;
+  return new Point(
+    Math.cos(r) * length,
+    Math.sin(r) * length
+  );
+};
+
+/**
+ * Generates a random point with X and Y coordinates between 0 and 1
+ *
+ * ### Examples:
+ *     var randomVector = Point.random();
+ *
+ *     point.toString();
+ *     // => x:0.0273982 y: 0.9784389
+ *
+ * @name Point.random
+ * @return {Point} The new instance
+ * @api public
+ */
+Point.random = function() {
+  return new Point(
+    Math.random(),
+    Math.random()
+  );
+};
+
+/**
+ * Returns a new point object with the smallest x and y of the
+ * supplied points.
+ *
+ * @static
+ * @param {Point} point1
+ * @param {Point} point2
+  *
+ * @name Point.min
+ * @return {Point} The new instance
+ * @api public
+ */
+Point.min = function(point1, point2) {
+  return new Point(
+    Math.min(point1.x, point2.x),
+    Math.min(point1.y, point2.y)
+  );
+};
+
+/**
+ * Returns a new point object with the largest x and y of the
+ * supplied points.
+ *
+ * @static
+ * @param {Point} point1
+ * @param {Point} point2
+  *
+ * @name Point.max
+ * @return {Point} The new instance
+ * @api public
+ */
+Point.max = function(point1, point2) {
+  return new Point(
+    Math.max(point1.x, point2.x),
+    Math.max(point1.y, point2.y)
+  );
+};
+
+},{"./lib/numerical":2}],2:[function(_dereq_,module,exports){
+// Precision when comparing against 0
+// References:
+//  http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html
+//  http://www.cs.berkeley.edu/~wkahan/Math128/Cubic.pdf
+/**
+ * A very small absolute value used to check if a value is very close to
+ * zero. The value should be large enough to offset any floating point
+ * noise, but small enough to be meaningful in computation in a nominal
+ * range (see MACHINE_EPSILON).
+ */
+var EPSILON = 1e-12;
+var DEGREES = 180 / Math.PI;
+
+module.exports = {
+  EPSILON: EPSILON,
+
+  mix: function(value1, value2, ratio) {
+    return value1 * (1 - ratio) + value2 * ratio;
+  },
+
+  radiansToDegrees: function(rad) {
+    return rad * DEGREES;
+  },
+
+  degreesToRadians: function(deg) {
+    return deg / DEGREES;
+  },
+
+  format: function(number) {
+    // It would be nice to use Number#toFixed() instead, but it pads with 0,
+    // unecessarily consuming space.
+    var multiplier = 100000; // Math.pow(10, 5), where 5 is the amount of fractional digits
+    return Math.round(number * multiplier) / multiplier;
+  },
+
+  isZero: function isZero(number) {
+    return number < EPSILON;
+  }
 }
 
 },{}]},{},[1])

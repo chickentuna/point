@@ -1,7 +1,6 @@
 var expect = require('chai').expect;
 var Point = require('../index');
-
-var EPSILON = 0.0001;
+var numerical = require('../lib/numerical');
 
 describe('static methods', function () {
 
@@ -39,6 +38,20 @@ describe('static methods', function () {
 		it('should have coordinates from array', function () {
 			expect(vec).to.have.property('x', arr[0]);
 			expect(vec).to.have.property('y', arr[1]);
+		});
+	});
+
+	describe('Point.fromAngleWithLength()', function () {
+    var point = new Point.fromAngleWithLength(40, 20);
+    var angle = point.getAngle();
+    var length = point.getLength();
+		it('should return an instance of Point', function () {
+			expect(point).to.be.an.instanceof(Point);
+		});
+
+		it('should have the correct angle and length', function () {
+			expect(angle).to.be.closeTo(40, numerical.EPSILON);
+			expect(length).to.be.closeTo(20, numerical.EPSILON);
 		});
 	});
 
@@ -763,13 +776,13 @@ describe('chainable instance methods', function () {
 		});
 	});
 
-	describe('#vector()', function () {
+	describe('#getVector()', function () {
 		var vec1, vec2, ret;
 
 		before(function () {
 			vec1 = new Point(100, 100);
 			vec2 = new Point(250, 250);
-			ret = vec1.vector(vec2);
+			ret = vec1.getVector(vec2);
 		});
 
 		it('should be chainable', function () {
@@ -801,25 +814,92 @@ describe('chainable instance methods', function () {
 		});
 	});
 
-	describe('#horizontalAngle()', function(){
-
-		var angleX,angleY;
+	describe('#getAngle()', function(){
+		var angle;
 		before(function(){
-			angleX = new Point(100,0).horizontalAngle();
-			angleY = new Point(0,100).horizontalAngle();
-			angleXPi = new Point(-100,0).horizontalAngle();
+			angle = new Point(0, 10).getAngle();
 		});
 
-		it('should x directed vector to 0°', function(){
-			expect(Math.abs(angleX - 0)).to.lte(0,EPSILON);
+		it('The angle of the point should be 90°', function(){
+			expect(angle).to.be.closeTo(90, numerical.EPSILON);
+		});
+	});
+
+	describe('#getAngle(point)', function(){
+		var angle;
+		before(function(){
+	    angle = new Point(0, 10).getAngle(new Point(10, 10));
 		});
 
-		it('should y directed vector to 90°', function(){
-			expect(Math.abs(angleY - Math.PI/2)).to.lte(EPSILON);
+		it('The angle of the point should be 45', function(){
+			expect(angle).to.be.closeTo(45, numerical.EPSILON);
+		});
+	});
+
+	describe('get #angle', function(){
+		var angle;
+		before(function(){
+			angle = new Point(0, 10).angle;
 		});
 
-		it('should negative x directed vector to 180°', function(){
-			expect(Math.abs(angleXPi - Math.PI)).to.lte(EPSILON);
+		it('The angle of the point should be 90°', function(){
+			expect(angle).to.be.closeTo(90, numerical.EPSILON);
+		});
+	});
+
+	describe('#setAngle()', function(){
+		var vec, ret, length;
+		before(function(){
+			vec = new Point(10, 20);
+			length = vec.length;
+			ret = vec.setAngle(120);
+		});
+
+		it('should be chainable', function(){
+			expect(ret).to.equal(vec);
+		});
+
+		it('should rotate any Vector to a given angle', function(){
+			expect(vec.getAngle()).to.be.closeTo(120, numerical.EPSILON);
+		});
+
+		it('should keep the length', function(){
+			expect(ret.length).to.equal(length);
+		});
+	});
+
+	describe('set #angle', function(){
+		var vec, length;
+
+		before(function(){
+			vec = new Point(10, 20);
+			length = vec.length;
+			vec.angle = 120;
+		});
+
+		it('should rotate any Vector to a given angle', function(){
+			expect(vec.angle).to.be.closeTo(120, numerical.EPSILON);
+		});
+
+		it('should keep the length', function(){
+			expect(vec.length).to.equal(length);
+		});
+	});
+
+	describe('set #angle and #length', function(){
+		var vec, length, angle;
+
+		before(function(){
+			vec = new Point();
+			vec.length = 100;
+			vec.angle = 30;
+			length = vec.length;
+			angle = vec.angle;
+		});
+
+		it('contain the correct length and angle', function(){
+			expect(vec.angle).to.be.closeTo(angle, numerical.EPSILON);
+			expect(vec.length).to.be.closeTo(length, numerical.EPSILON);
 		});
 	});
 
@@ -827,8 +907,8 @@ describe('chainable instance methods', function () {
 		var vec, ret;
 
 		before(function () {
-			vec = new Point(100, 100);
-			ret = vec.rotate(90 * Math.PI / 180);
+     vec = new Point(100, 50);
+     ret = vec.rotate(90);
 		});
 
 		it('should be chainable', function () {
@@ -836,82 +916,9 @@ describe('chainable instance methods', function () {
 		});
 
 		it('should rotate the vector by certain degrees', function () {
-			expect(vec).to.have.property('x', -100);
-			expect(vec).to.have.property('y', 100);
-			expect(Math.abs(vec.horizontalAngle() - 135 * Math.PI / 180)).to.lte(EPSILON);
+			expect(vec).property('x').to.be.closeTo(-50, numerical.EPSILON);
+			expect(vec).property('y').to.be.closeTo(100, numerical.EPSILON);
 		});
-	});
-
-
-	describe('#rotateDeg()', function () {
-		var vec, ret;
-
-		before(function () {
-			vec = new Point(100, 100);
-			ret = vec.rotateDeg(90);
-		});
-
-		it('should be chainable', function () {
-			expect(ret).to.equal(vec);
-		});
-
-		it('should set the rotation angle in degrees', function () {
-			expect(vec).to.have.property('x', -100);
-			expect(vec).to.have.property('y', 100);
-		});
-	});
-
-
-	describe('#rotateTo()', function(){
-		var vecX,vecY, retX, retY;
-
-
-		before(function(){
-			vecX = new Point(100,0);
-			vecY = new Point(0,100);
-			retX = vecX.rotateTo(120 * Math.PI / 180);
-			retY = vecY.rotateTo(120 * Math.PI / 180);
-		});
-
-		it('should be chainable', function(){
-			expect(retX).to.equal(vecX);
-		});
-
-		it('should rotate any Vector to a given angle', function(){
-			expect(vecX.angle()).to.equal(120 * Math.PI /180);
-			expect(vecY.angle()).to.equal(120 * Math.PI /180);
-		});
-
-		it('should keep the length', function(){
-			expect(retX.length()).to.equal(100);
-			expect(retY.length()).to.equal(100);
-		});
-
-	});
-
-	describe('#rotateToDeg()', function(){
-		var vec,ret;
-		before(function(){
-			vec = new Point(100,0);
-
-			ret = vec.rotateToDeg(120);
-
-		});
-
-		it('should be chainable', function(){
-			expect(ret).to.equal(vec);
-		});
-
-		it('should rotate any Vector to a given angle', function(){
-			expect(Math.abs(vec.angleDeg()-120)).to.lte(EPSILON);
-
-		});
-
-		it('should keep the length', function(){
-			expect(ret.length()).to.equal(100);
-
-		});
-
 	});
 
 	describe('#rotateBy()', function () {
@@ -919,7 +926,7 @@ describe('chainable instance methods', function () {
 
 		before(function () {
 			vec = new Point(100, 100);
-			ret = vec.rotateBy(45 * Math.PI / 180);
+			ret = vec.rotateBy(45);
 		});
 
 		it('should be chainable', function () {
@@ -927,24 +934,6 @@ describe('chainable instance methods', function () {
 		});
 
 		it('should rotate by the given angle', function () {
-			expect(vec).to.have.property('x', -100);
-			expect(vec).to.have.property('y', 100);
-		});
-	});
-
-	describe('#rotateByDeg()', function () {
-		var vec, ret;
-
-		before(function () {
-			vec = new Point(100, 100);
-			ret = vec.rotateByDeg(45);
-		});
-
-		it('should be chainable', function () {
-			expect(ret).to.equal(vec);
-		});
-
-		it('should rotate by the given angle in degrees', function () {
 			expect(vec).to.have.property('x', -100);
 			expect(vec).to.have.property('y', 100);
 		});
@@ -1025,13 +1014,13 @@ describe('regular instance methods', function () {
 		});
 	});
 
-	describe('#distance()', function () {
+	describe('#getDistance()', function () {
 		var vec1, vec2, ret;
 
 		before(function () {
 			vec1 = new Point(100, 100);
 			vec2 = new Point(200, 100);
-			ret = vec1.distance(vec2);
+			ret = vec1.getDistance(vec2);
 		});
 
 		it('should return the euclidean distance between 2 vectors', function () {
@@ -1039,16 +1028,29 @@ describe('regular instance methods', function () {
 		});
 	});
 
-	describe('#length()', function () {
+	describe('#getLength()', function () {
 		var vec, ret;
 
 		before(function () {
 			vec = new Point(100, 100);
-			ret = vec.length();
+			ret = vec.getLength();
 		});
 
 		it('should return the length of the vector', function () {
-			expect(Math.round(ret)).to.equal(141);
+			expect(ret).to.be.closeTo(141.4213562373095, numerical.EPSILON);
+		});
+	});
+
+	describe('get #length', function () {
+		var vec, ret;
+
+		before(function () {
+			vec = new Point(100, 100);
+			ret = vec.length;
+		});
+
+		it('should return the length of the vector', function () {
+			expect(ret).to.be.closeTo(141.4213562373095, numerical.EPSILON);
 		});
 	});
 
@@ -1062,6 +1064,20 @@ describe('regular instance methods', function () {
 
 		it('should be chainable', function () {
 			expect(ret).to.equal(vec);
+		});
+
+		it('should set the length of the vector', function () {
+			expect(vec.x).to.equal(30);
+			expect(vec.y).to.equal(0);
+		});
+	});
+
+	describe('set #length', function () {
+		var vec;
+
+		before(function () {
+			vec = new Point(10, 0);
+			vec.length = 30;
 		});
 
 		it('should set the length of the vector', function () {
